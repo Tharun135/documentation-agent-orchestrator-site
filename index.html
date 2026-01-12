@@ -445,11 +445,6 @@
 </head>
 
 <body>
-  <!-- Sticky CTA -->
-  <div class="sticky-cta">
-    <a href="https://marketplace.visualstudio.com/manage/publishers/tharunsebastian">→ Install the VS Code Extension</a>
-  </div>
-
   <div class="container">
 
     <!-- Hero -->
@@ -463,8 +458,7 @@
         It either documents exactly what you provide, or stops before it would have to guess.
       </p>
       <div class="cta">
-        <a class="button" href="https://marketplace.visualstudio.com/manage/publishers/tharunsebastian">Install the VS Code Extension</a>
-        <a class="button secondary" href="https://github.com/Tharun135/documentation-agent-orchestrator-site">View on GitHub</a>
+        <a class="button" href="https://github.com/Tharun135/documentation-agent-orchestrator-site">View on GitHub</a>
       </div>
     </section>
 
@@ -754,23 +748,21 @@ Valid → dashboard.
 Invalid → error.
 Admins get extra options.`,
         without: {
-          text: `The authentication process begins when the user clicks the Login button.
-The system validates the credentials against the database using encryption.
-If the credentials are valid, the user is redirected to the main dashboard
-and greeted with a welcome message.
+          text: `Procedure
 
-If authentication fails, the system logs the attempt and displays an
-appropriate error notification. Administrator users are redirected to
-an admin dashboard with advanced configuration and user management options.`,
+1. The user clicks the Login button.
+2. The system validates the credentials against the database using bcrypt encryption.
+3. If the credentials are valid, the user is redirected to the main dashboard with a welcome message.
+4. If the credentials are invalid, the system logs the failed attempt for security monitoring and displays an error message.
+5. Administrator users are redirected to the admin dashboard with access to user management, system configuration, and analytics tools.`,
           label: 'What went wrong',
           explanation: `<ul>
-<li>Encryption method invented</li>
-<li>Logging behavior invented</li>
-<li>Welcome message invented</li>
-<li>Admin dashboard and tools invented</li>
-<li>"Extra options" expanded into features</li>
+<li>"bcrypt encryption" - specific method invented</li>
+<li>"welcome message" - behavior invented</li>
+<li>"logs the failed attempt for security monitoring" - feature invented</li>
+<li>"user management, system configuration, and analytics tools" - specific features invented from "extra options"</li>
 </ul>
-<p style="margin-top: 0.5rem;">This output sounds professional and confident. It is also incorrect.</p>`
+<p style="margin-top: 0.5rem;">Well-structured, professional, and completely wrong.</p>`
         },
         with: {
           text: `Procedure
@@ -798,14 +790,18 @@ Preserved Ambiguities
       blocking: {
         input: `Handle the login stuff properly.`,
         without: {
-          text: `The system ensures a secure and user-friendly login experience
-by validating credentials, handling errors gracefully, and
-redirecting users appropriately based on their role.`,
+          text: `Procedure
+
+1. The user enters their credentials in the login form.
+2. The system validates the credentials using secure authentication protocols.
+3. On successful authentication, the user is redirected to their role-appropriate dashboard.
+4. Failed login attempts are logged and the user receives an error notification with retry guidance.`,
           label: 'What happened',
           explanation: `<ul>
-<li>"Login stuff" interpreted</li>
-<li>"Secure" invented</li>
-<li>Role-based behavior invented</li>
+<li>"login form" - not mentioned in input</li>
+<li>"secure authentication protocols" - invented from "properly"</li>
+<li>"role-appropriate dashboard" - invented from vague input</li>
+<li>"logged" and "retry guidance" - completely invented</li>
 </ul>
 <p style="margin-top: 0.5rem;">The AI guessed instead of stopping.</p>`
         },
@@ -814,7 +810,8 @@ redirecting users appropriately based on their role.`,
 
 1. What does "login stuff" refer to?
 2. What does "properly" mean in this context?
-3. What actions should occur after login?`,
+3. What specific actions should occur during login?
+4. What are the success and failure conditions?`,
           label: 'Why this is correct',
           explanation: `<p>Documentation cannot be written without guessing, so the tool stops instead of inventing behavior.</p>`
         }
@@ -822,28 +819,34 @@ redirecting users appropriately based on their role.`,
       concept: {
         input: `The system supports role-based access.`,
         without: {
-          text: `The system implements role-based access control (RBAC),
-allowing administrators to assign permissions to users
-based on predefined roles such as admin, editor, and viewer.`,
+          text: `Concept: Role-Based Access Control
+
+The system implements role-based access control (RBAC), allowing administrators to assign permissions to users based on their organizational roles. Supported roles include:
+
+- Admin: Full system access and configuration rights
+- Editor: Content creation and modification privileges
+- Viewer: Read-only access to system resources`,
           label: 'What went wrong',
           explanation: `<ul>
-<li>RBAC terminology invented</li>
-<li>Specific roles invented</li>
-<li>Permission model invented</li>
+<li>"RBAC" terminology and expansion invented</li>
+<li>"administrators to assign permissions" - workflow invented</li>
+<li>"Admin, Editor, Viewer" - specific roles invented</li>
+<li>Permission details for each role invented</li>
 </ul>`
         },
         with: {
-          text: `Concept
+          text: `Concept: Role-Based Access
 
 The system supports access based on user roles.
 
 Preserved Ambiguities
-- "roles" (types not specified)
-- "access" (scope not defined)`,
+- "roles" (specific role types not specified)
+- "access" (scope and permissions not defined)
+- "supports" (implementation details not specified)`,
           label: 'Result',
           explanation: `<ul>
 <li>Terminology preserved</li>
-<li>No assumptions</li>
+<li>No assumptions about implementation</li>
 <li>Ambiguity remains visible</li>
 </ul>`
         }
