@@ -502,19 +502,64 @@
       </ul>
     </section>
 
-    <!-- Example -->
-    <section>
-      <h2>Example (governed output)</h2>
-      <p><strong>Input</strong></p>
-      <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px; margin: 0.5rem 0;">Admins get extra options.</pre>
-      
-      <p style="margin-top: 1.5rem;"><strong>Output</strong></p>
-      <pre style="background: #fafffa; padding: 0.75rem; border-radius: 4px; border: 1px solid #cfc; margin: 0.5rem 0;">Admin users have access to additional options.
+    <!-- Toggle Comparison Section -->
+    <section style="background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin: 2rem 0;">
+      <h2 style="margin-top: 0;">See the difference in 30 seconds</h2>
+      <p><strong>The same input. Two outcomes.</strong><br>
+      Toggle between normal AI behavior and governed documentation.</p>
 
-Preserved Ambiguities
-- "additional options" (not defined)</pre>
-      
-      <p class="muted" style="margin-top: 1rem;">No invented behavior. Uncertainty is explicit.</p>
+      <!-- Example Selector -->
+      <div style="display: flex; gap: 0.5rem; margin: 1.5rem 0; flex-wrap: wrap;">
+        <button class="demo-button active" data-toggle-example="procedure">Procedure</button>
+        <button class="demo-button" data-toggle-example="blocking">Vague Input</button>
+        <button class="demo-button" data-toggle-example="concept">Concept</button>
+      </div>
+
+      <!-- Toggle Controls -->
+      <div class="toggle-container">
+        <button class="toggle-button active-bad" id="toggle-without">❌ Without governance</button>
+        <button class="toggle-button" id="toggle-with">✅ With Documentation Agent Orchestrator</button>
+      </div>
+      <p class="muted" style="text-align: center; font-size: 0.85rem; margin-top: 0.5rem;">Left shows what typical AI does. Right shows what happens when governance rules are enforced.</p>
+
+      <!-- Original Input (always visible) -->
+      <div style="margin: 2rem 0;">
+        <p><strong>Original input</strong></p>
+        <pre id="toggle-input" style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px; margin: 0.5rem 0;"></pre>
+      </div>
+
+      <!-- Without Governance Output -->
+      <div id="output-without" class="comparison-output bad">
+        <h4>❌ Without governance (Normal AI)</h4>
+        <pre id="without-text" style="background: #fffafa; padding: 1rem; border-radius: 4px; border: 1px solid #fcc; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.6;"></pre>
+        
+        <p style="margin-top: 1rem;"><strong id="without-label"></strong></p>
+        <div id="without-explanation" style="font-size: 0.9rem;"></div>
+      </div>
+
+      <!-- With Governance Output -->
+      <div id="output-with" class="comparison-output good output-hidden">
+        <h4>✅ With Documentation Agent Orchestrator</h4>
+        <pre id="with-text" style="background: #fafffa; padding: 1rem; border-radius: 4px; border: 1px solid #cfc; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.6;"></pre>
+        
+        <p style="margin-top: 1rem;"><strong id="with-label"></strong></p>
+        <div id="with-explanation" style="font-size: 0.9rem;"></div>
+      </div>
+
+      <!-- Micro-explanation -->
+      <div style="margin-top: 2rem; padding: 1.5rem; background: white; border-radius: 6px; border: 1px solid var(--border);">
+        <p><strong>What the toggle shows</strong></p>
+        <ul style="margin: 0.5rem 0;">
+          <li><strong>Without governance</strong>: AI fills gaps silently to sound helpful</li>
+          <li><strong>With governance</strong>: AI documents only what exists and exposes uncertainty</li>
+        </ul>
+        <p style="margin-top: 1rem;">The difference is not style. The difference is correctness.</p>
+      </div>
+
+      <!-- Lock-in statement -->
+      <p style="text-align: center; font-size: 1.1rem; font-weight: 600; margin: 2rem 0 0; color: var(--fg);">
+        Documentation Agent Orchestrator doesn't make AI smarter.<br>It makes AI stop lying.
+      </p>
     </section>
 
     <!-- Preserved Ambiguities Section -->
@@ -701,9 +746,189 @@ Preserved Ambiguities
   </div>
 
   <script>
+    // Toggle examples data
+    const toggleExamples = {
+      procedure: {
+        input: `User clicks login. Credentials checked.
+Valid → dashboard.
+Invalid → error.
+Admins get extra options.`,
+        without: {
+          text: `The authentication process begins when the user clicks the Login button.
+The system validates the credentials against the database using encryption.
+If the credentials are valid, the user is redirected to the main dashboard
+and greeted with a welcome message.
+
+If authentication fails, the system logs the attempt and displays an
+appropriate error notification. Administrator users are redirected to
+an admin dashboard with advanced configuration and user management options.`,
+          label: 'What went wrong',
+          explanation: `<ul>
+<li>Encryption method invented</li>
+<li>Logging behavior invented</li>
+<li>Welcome message invented</li>
+<li>Admin dashboard and tools invented</li>
+<li>"Extra options" expanded into features</li>
+</ul>
+<p style="margin-top: 0.5rem;">This output sounds professional and confident. It is also incorrect.</p>`
+        },
+        with: {
+          text: `Procedure
+
+1. The user clicks the Login button.
+2. The system checks the provided credentials.
+3. If the credentials are valid, the system redirects the user to the dashboard.
+4. If the credentials are invalid, the system displays an error message.
+5. Admin users have access to additional options.
+
+Preserved Ambiguities
+- "dashboard" (location not specified)
+- "error message" (content not specified)
+- "additional options" (options not defined)
+- "credentials checked" (method not specified)`,
+          label: 'Why this is safe',
+          explanation: `<ul>
+<li>No invented behavior</li>
+<li>No implied features</li>
+<li>All uncertainty is explicit</li>
+<li>Output is traceable to the source</li>
+</ul>`
+        }
+      },
+      blocking: {
+        input: `Handle the login stuff properly.`,
+        without: {
+          text: `The system ensures a secure and user-friendly login experience
+by validating credentials, handling errors gracefully, and
+redirecting users appropriately based on their role.`,
+          label: 'What happened',
+          explanation: `<ul>
+<li>"Login stuff" interpreted</li>
+<li>"Secure" invented</li>
+<li>Role-based behavior invented</li>
+</ul>
+<p style="margin-top: 0.5rem;">The AI guessed instead of stopping.</p>`
+        },
+        with: {
+          text: `Questions
+
+1. What does "login stuff" refer to?
+2. What does "properly" mean in this context?
+3. What actions should occur after login?`,
+          label: 'Why this is correct',
+          explanation: `<p>Documentation cannot be written without guessing, so the tool stops instead of inventing behavior.</p>`
+        }
+      },
+      concept: {
+        input: `The system supports role-based access.`,
+        without: {
+          text: `The system implements role-based access control (RBAC),
+allowing administrators to assign permissions to users
+based on predefined roles such as admin, editor, and viewer.`,
+          label: 'What went wrong',
+          explanation: `<ul>
+<li>RBAC terminology invented</li>
+<li>Specific roles invented</li>
+<li>Permission model invented</li>
+</ul>`
+        },
+        with: {
+          text: `Concept
+
+The system supports access based on user roles.
+
+Preserved Ambiguities
+- "roles" (types not specified)
+- "access" (scope not defined)`,
+          label: 'Result',
+          explanation: `<ul>
+<li>Terminology preserved</li>
+<li>No assumptions</li>
+<li>Ambiguity remains visible</li>
+</ul>`
+        }
+      }
+    };
+
     // Wait for DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', function() {
-      // Toggle functionality for Normal AI vs Governed AI
+      // Toggle example functionality
+      let currentToggleExample = 'procedure';
+      let currentToggleView = 'without';
+
+      function updateToggleContent() {
+        const example = toggleExamples[currentToggleExample];
+        if (!example) return;
+
+        // Update input
+        const inputEl = document.getElementById('toggle-input');
+        if (inputEl) inputEl.textContent = example.input;
+
+        // Update without content
+        const withoutText = document.getElementById('without-text');
+        const withoutLabel = document.getElementById('without-label');
+        const withoutExplanation = document.getElementById('without-explanation');
+        if (withoutText) withoutText.textContent = example.without.text;
+        if (withoutLabel) withoutLabel.textContent = example.without.label;
+        if (withoutExplanation) withoutExplanation.innerHTML = example.without.explanation;
+
+        // Update with content
+        const withText = document.getElementById('with-text');
+        const withLabel = document.getElementById('with-label');
+        const withExplanation = document.getElementById('with-explanation');
+        if (withText) withText.textContent = example.with.text;
+        if (withLabel) withLabel.textContent = example.with.label;
+        if (withExplanation) withExplanation.innerHTML = example.with.explanation;
+
+        // Toggle visibility
+        const outputWithout = document.getElementById('output-without');
+        const outputWith = document.getElementById('output-with');
+        if (currentToggleView === 'without') {
+          if (outputWithout) outputWithout.classList.remove('output-hidden');
+          if (outputWith) outputWith.classList.add('output-hidden');
+        } else {
+          if (outputWithout) outputWithout.classList.add('output-hidden');
+          if (outputWith) outputWith.classList.remove('output-hidden');
+        }
+      }
+
+      // Example selector buttons
+      const exampleButtons = document.querySelectorAll('[data-toggle-example]');
+      exampleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          currentToggleExample = this.dataset.toggleExample;
+          exampleButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          updateToggleContent();
+        });
+      });
+
+      // Toggle between without/with
+      const toggleWithout = document.getElementById('toggle-without');
+      const toggleWith = document.getElementById('toggle-with');
+      
+      if (toggleWithout && toggleWith) {
+        toggleWithout.addEventListener('click', function() {
+          currentToggleView = 'without';
+          this.classList.add('active-bad');
+          this.classList.remove('active-good');
+          toggleWith.classList.remove('active-bad', 'active-good');
+          updateToggleContent();
+        });
+        
+        toggleWith.addEventListener('click', function() {
+          currentToggleView = 'with';
+          this.classList.add('active-good');
+          this.classList.remove('active-bad');
+          toggleWithout.classList.remove('active-bad', 'active-good');
+          updateToggleContent();
+        });
+      }
+
+      // Initialize
+      updateToggleContent();
+
+      // Old toggle functionality (if exists)
       const btnNormal = document.getElementById('btn-normal');
       const btnGoverned = document.getElementById('btn-governed');
       const outputNormal = document.getElementById('output-normal');
