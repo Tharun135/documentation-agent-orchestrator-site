@@ -141,6 +141,12 @@
       cursor: pointer;
       font-size: 0.9rem;
       transition: all 0.2s;
+      user-select: none;
+    }
+
+    .demo-button:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     .demo-button:hover {
@@ -432,16 +438,25 @@ Preserved Ambiguities
 
     // Wait for DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, initializing demo...');
       let currentExample = 'login';
       
       function updateDemo(exampleKey) {
+        console.log('Updating demo to:', exampleKey);
         currentExample = exampleKey;
         const example = examples[exampleKey];
+        
+        if (!example) {
+          console.error('Example not found:', exampleKey);
+          return;
+        }
         
         // Update source
         const sourceElement = document.getElementById('demo-source-text');
         if (sourceElement) {
           sourceElement.innerHTML = example.source.replace(/\\n/g, '<br>');
+        } else {
+          console.error('Source element not found');
         }
         
         // Update outputs
@@ -450,9 +465,13 @@ Preserved Ambiguities
         
         if (normalOutput) {
           normalOutput.innerHTML = example.normal;
+        } else {
+          console.error('Normal output element not found');
         }
         if (governedOutput) {
           governedOutput.innerHTML = example.governed;
+        } else {
+          console.error('Governed output element not found');
         }
         
         // Update active button
@@ -467,13 +486,19 @@ Preserved Ambiguities
 
       // Add click handlers
       const buttons = document.querySelectorAll('.demo-button');
-      buttons.forEach(button => {
-        button.addEventListener('click', function() {
+      console.log('Found buttons:', buttons.length);
+      
+      buttons.forEach((button, index) => {
+        console.log('Button', index, ':', button.dataset.example);
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          console.log('Button clicked:', this.dataset.example);
           updateDemo(this.dataset.example);
         });
       });
 
       // Initialize
+      console.log('Initializing with login example');
       updateDemo('login');
     });
   </script>
