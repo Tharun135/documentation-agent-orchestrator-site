@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Documentation Agent Orchestrator</title>
+  <meta name="description" content="Stop AI from inventing documentation. Govern AI rewrites with explicit ambiguity preservation and zero hallucinations." />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #555555;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --code-bg: #f8f9fb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin: 0.75rem 0;
+      color: var(--fg);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .hero {
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+    }
+
+    .cta {
+      margin-top: 1.5rem;
+    }
+
+    .button {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      padding: 0.65rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--accent);
+      margin-left: 1rem;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin: 0.4rem 0;
+    }
+
+    pre {
+      background: var(--code-bg);
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .example {
+      margin-top: 1.5rem;
+    }
+
+    .example h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Stop AI from inventing documentation.</h1>
+      <p>
+        <strong>Documentation Agent Orchestrator</strong> helps technical writers use AI without hallucinations
+        by enforcing strict governance rules.
+      </p>
+      <p class="muted">
+        It documents exactly what you provide, preserves ambiguity explicitly,
+        or stops and asks questions when invention would be required.
+      </p>
+      <div class="cta">
+        <a class="button" href="https://marketplace.visualstudio.com/">Install the VS Code Extension</a>
+        <a class="button secondary" href="https://github.com/">View on GitHub</a>
+      </div>
+    </section>
+
+    <!-- Problem -->
+    <section>
+      <h2>AI is fluent. Documentation needs to be correct.</h2>
+      <p>
+        When AI rewrites documentation, the real risk is not grammar or tone.
+        It is silent meaning change.
+      </p>
+      <ul>
+        <li>Invented features</li>
+        <li>Implied steps that do not exist</li>
+        <li>Assumed workflows</li>
+        <li>Changed terminology</li>
+      </ul>
+      <p class="muted">
+        These mistakes are easy to miss and hard to defend later.
+      </p>
+    </section>
+
+    <!-- What it does -->
+    <section>
+      <h2>What this tool does</h2>
+      <ul>
+        <li>Enforces strict governance on AI documentation rewrites</li>
+        <li>Forces AI to preserve ambiguity instead of guessing</li>
+        <li>Allows questions only when documentation would require invention</li>
+        <li>Makes uncertainty explicit instead of hiding it in fluent text</li>
+      </ul>
+    </section>
+
+    <!-- What it does NOT do -->
+    <section>
+      <h2>What this tool deliberately does not do</h2>
+      <p>
+        Documentation Agent Orchestrator is not a writing assistant.
+      </p>
+      <ul>
+        <li>It does not polish sentences</li>
+        <li>It does not improve wording or tone</li>
+        <li>It does not simplify language</li>
+        <li>It does not fill in missing details</li>
+      </ul>
+      <p class="muted">
+        If you want AI to write better, this is not the right tool.
+        If you want AI output you can trust, it is.
+      </p>
+    </section>
+
+    <!-- How it works -->
+    <section>
+      <h2>How it works</h2>
+      <ol>
+        <li>Select source content in VS Code</li>
+        <li>Generate a governed AI prompt</li>
+        <li>Inspect the result before accepting it</li>
+      </ol>
+    </section>
+
+    <!-- Example -->
+    <section class="example">
+      <h2>Example</h2>
+
+      <h3>Before</h3>
+      <pre><code>User clicks login. Credentials checked.
+Valid → dashboard.
+Invalid → error.
+Admins get extra options.</code></pre>
+
+      <h3>After</h3>
+      <pre><code>Procedure
+1. The user clicks the Login button.
+2. The system checks the provided credentials.
+3. If the credentials are valid, the system redirects the user to the dashboard.
+4. If the credentials are invalid, the system displays an error message.
+5. Admin users have access to additional options.
+
+Preserved Ambiguities
+- "dashboard" (location not specified)
+- "error message" (message content not specified)
+- "extra options" (options not defined)</code></pre>
+
+      <p class="muted">
+        No invented behavior. No silent assumptions.
+      </p>
+    </section>
+
+    <!-- Audience -->
+    <section>
+      <h2>Who this is for</h2>
+      <p><strong>For:</strong> Technical writers, documentation engineers, docs-as-code teams.</p>
+      <p><strong>Not for:</strong> Content polishing, grammar correction, creative rewriting.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <a href="https://marketplace.visualstudio.com/">VS Code Marketplace</a>
+      <a href="https://github.com/">GitHub</a>
+      <span>MIT License</span>
+    </footer>
+
+  </div>
+</body>
+</html>
