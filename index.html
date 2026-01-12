@@ -46,13 +46,17 @@
 
     h2 {
       font-size: 1.6rem;
-      margin-top: 2rem;
+      margin-top: 2.5rem;
       margin-bottom: 1rem;
     }
 
     p {
       margin: 0.75rem 0;
       color: var(--fg);
+    }
+
+    section {
+      margin-bottom: 1.5rem;
     }
 
     .muted {
@@ -384,7 +388,9 @@
 
     .final-cta h2 {
       margin-top: 0;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.4rem;
+      line-height: 1.4;
     }
 
     .final-cta-buttons {
@@ -510,66 +516,6 @@ Preserved Ambiguities
       
       <p class="muted" style="margin-top: 1rem;">No invented behavior. Uncertainty is explicit.</p>
     </section>
-
-    <!-- Live Comparison Demo -->
-    <div class="collapsible-section">
-      <div class="collapsible-header">
-        <span class="collapsible-icon">▶</span>
-        <span>See a governed documentation example</span>
-      </div>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <div class="comparison-demo" style="padding: 0; background: transparent; border: none;">
-            <p class="muted">Toggle to see the difference between normal AI that hallucinates vs. governed AI that preserves accuracy.</p>
-            
-            <div class="demo-source">
-              <strong>Original Documentation:</strong>
-User clicks login. Credentials checked.
-Valid → dashboard.
-Invalid → error.
-Admins get extra options.</div>
-
-            <div class="toggle-container">
-              <button class="toggle-button active-bad" id="btn-normal">❌ Normal AI</button>
-              <button class="toggle-button" id="btn-governed">✅ Governed AI</button>
-            </div>
-
-            <div class="comparison-output bad" id="output-normal">
-              <h4>Normal AI Rewrite (with hallucinations)</h4>
-              <p>The authentication process begins when the user clicks the Login button. <span class="highlight-bad">The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class="highlight-bad">the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class="highlight-bad">Invalid attempts are logged for security purposes</span> and an error message is displayed. Administrator accounts have access to additional options.</p>
-              
-              <p style="margin-top: 1rem;"><strong>What was invented:</strong></p>
-              <ul>
-                <li>Specific encryption method (bcrypt)</li>
-                <li>Welcome message behavior</li>
-                <li>Security logging</li>
-              </ul>
-            </div>
-
-            <div class="comparison-output good output-hidden" id="output-governed">
-              <h4>Governed AI Rewrite (accurate)</h4>
-              <p><strong>Procedure</strong></p>
-              <ol>
-                <li>The user clicks the Login button.</li>
-                <li>The system checks the provided credentials.</li>
-                <li>If the credentials are valid, the system redirects the user to the dashboard.</li>
-                <li>If the credentials are invalid, the system displays an error message.</li>
-                <li>Admin users have access to additional options.</li>
-              </ol>
-              
-              <p style="margin-top: 1rem;"><strong>Preserved Ambiguities</strong></p>
-              <ul>
-                <li><span class="highlight-good">"dashboard"</span> (location not specified)</li>
-                <li><span class="highlight-good">"error message"</span> (content not specified)</li>
-                <li><span class="highlight-good">"additional options"</span> (options not defined)</li>
-                <li><span class="highlight-good">"credentials checked"</span> (method not specified)</li>
-              </ul>
-              <p class="muted" style="margin-top: 1rem;">The tool does not fix vague inputs. It exposes them.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Preserved Ambiguities Section -->
     <div class="collapsible-section">
