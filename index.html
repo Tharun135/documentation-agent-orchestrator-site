@@ -497,55 +497,64 @@
     </section>
 
     <!-- Live Comparison Demo -->
-    <section class="comparison-demo">
-      <h2 style="margin-top: 0;">Watch How Wrong Things Go Without This</h2>
-      <p class="muted">Toggle to see the difference between normal AI that hallucinates vs. governed AI that preserves accuracy.</p>
-      
-      <div class="demo-source">
-        <strong>Original Documentation:</strong>
+    <div class="collapsible-section">
+      <div class="collapsible-header">
+        <span class="collapsible-icon">▶</span>
+        <span>See a governed documentation example</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <div class="comparison-demo" style="padding: 0; background: transparent; border: none;">
+            <p class="muted">Toggle to see the difference between normal AI that hallucinates vs. governed AI that preserves accuracy.</p>
+            
+            <div class="demo-source">
+              <strong>Original Documentation:</strong>
 User clicks login. Credentials checked.
 Valid → dashboard.
 Invalid → error.
 Admins get extra options.</div>
 
-      <div class="toggle-container">
-        <button class="toggle-button active-bad" id="btn-normal">❌ Normal AI</button>
-        <button class="toggle-button" id="btn-governed">✅ Governed AI</button>
-      </div>
+            <div class="toggle-container">
+              <button class="toggle-button active-bad" id="btn-normal">❌ Normal AI</button>
+              <button class="toggle-button" id="btn-governed">✅ Governed AI</button>
+            </div>
 
-      <div class="comparison-output bad" id="output-normal">
-        <h4>Normal AI Rewrite (with hallucinations)</h4>
-        <p>The authentication process begins when the user clicks the Login button. <span class="highlight-bad">The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class="highlight-bad">the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class="highlight-bad">Invalid attempts are logged for security purposes</span> and an error message is displayed. Administrator accounts have access to additional options.</p>
-        
-        <p style="margin-top: 1rem;"><strong>What was invented:</strong></p>
-        <ul>
-          <li>Specific encryption method (bcrypt)</li>
-          <li>Welcome message behavior</li>
-          <li>Security logging</li>
-        </ul>
-      </div>
+            <div class="comparison-output bad" id="output-normal">
+              <h4>Normal AI Rewrite (with hallucinations)</h4>
+              <p>The authentication process begins when the user clicks the Login button. <span class="highlight-bad">The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class="highlight-bad">the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class="highlight-bad">Invalid attempts are logged for security purposes</span> and an error message is displayed. Administrator accounts have access to additional options.</p>
+              
+              <p style="margin-top: 1rem;"><strong>What was invented:</strong></p>
+              <ul>
+                <li>Specific encryption method (bcrypt)</li>
+                <li>Welcome message behavior</li>
+                <li>Security logging</li>
+              </ul>
+            </div>
 
-      <div class="comparison-output good output-hidden" id="output-governed">
-        <h4>Governed AI Rewrite (accurate)</h4>
-        <p><strong>Procedure</strong></p>
-        <ol>
-          <li>The user clicks the Login button.</li>
-          <li>The system checks the provided credentials.</li>
-          <li>If the credentials are valid, the system redirects the user to the dashboard.</li>
-          <li>If the credentials are invalid, the system displays an error message.</li>
-          <li>Admin users have access to additional options.</li>
-        </ol>
-        
-        <p style="margin-top: 1rem;"><strong>Preserved Ambiguities</strong></p>
-        <ul>
-          <li><span class="highlight-good">"dashboard"</span> (location not specified)</li>
-          <li><span class="highlight-good">"error message"</span> (content not specified)</li>
-          <li><span class="highlight-good">"additional options"</span> (options not defined)</li>
-          <li><span class="highlight-good">"credentials checked"</span> (method not specified)</li>
-        </ul>
-        <p class="muted" style="margin-top: 1rem;">The tool does not fix vague inputs. It exposes them.</p>
+            <div class="comparison-output good output-hidden" id="output-governed">
+              <h4>Governed AI Rewrite (accurate)</h4>
+              <p><strong>Procedure</strong></p>
+              <ol>
+                <li>The user clicks the Login button.</li>
+                <li>The system checks the provided credentials.</li>
+                <li>If the credentials are valid, the system redirects the user to the dashboard.</li>
+                <li>If the credentials are invalid, the system displays an error message.</li>
+                <li>Admin users have access to additional options.</li>
+              </ol>
+              
+              <p style="margin-top: 1rem;"><strong>Preserved Ambiguities</strong></p>
+              <ul>
+                <li><span class="highlight-good">"dashboard"</span> (location not specified)</li>
+                <li><span class="highlight-good">"error message"</span> (content not specified)</li>
+                <li><span class="highlight-good">"additional options"</span> (options not defined)</li>
+                <li><span class="highlight-good">"credentials checked"</span> (method not specified)</li>
+              </ul>
+              <p class="muted" style="margin-top: 1rem;">The tool does not fix vague inputs. It exposes them.</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
 
     <!-- Preserved Ambiguities Section -->
     <div class="collapsible-section">
@@ -693,31 +702,14 @@ Admins get extra options.</div>
       </div>
     </div>
 
-    <!-- What it does NOT do -->
-    <section>
-      <h2>What this tool deliberately does not do</h2>
-      <p>
-        Documentation Agent Orchestrator is not a writing assistant.
-      </p>
-      <ul>
-        <li>It does not polish sentences</li>
-        <li>It does not improve wording or tone</li>
-        <li>It does not simplify language</li>
-        <li>It does not fill in missing details</li>
-      </ul>
-      <p class="muted">
-        If you want AI to write better, this is not the right tool.
-        If you want AI output you can trust, it is.
-      </p>
-    </section>
-
     <!-- How it works -->
     <section>
       <h2>How it works</h2>
       <ol>
         <li>Select source content in VS Code</li>
-        <li>Generate a governed AI prompt</li>
-        <li>Inspect the result before accepting it</li>
+        <li>Generate a governed AI prompt with strict rules</li>
+        <li>Paste it into your AI assistant</li>
+        <li>Inspect the output and preserved ambiguities before accepting</li>
       </ol>
     </section>
 
@@ -726,12 +718,12 @@ Admins get extra options.</div>
       <h2>Who this is for</h2>
       <p><strong>For:</strong> Technical writers, documentation engineers, docs-as-code teams.</p>
       <p><strong>Not for:</strong> Content polishing, grammar correction, creative rewriting.</p>
+      <p style="margin-top: 1rem;"><strong>This tool protects correctness, not writing quality.</strong></p>
     </section>
 
     <!-- Final CTA -->
     <div class="final-cta">
-      <h2>If this sounds like your problem</h2>
-      <p>You're accountable for documentation accuracy, and AI keeps inventing details.</p>
+      <h2>If you're accountable for documentation accuracy and AI keeps inventing details, this tool is for you.</h2>
       <div class="final-cta-buttons">
         <a class="button" href="https://marketplace.visualstudio.com/manage/publishers/tharunsebastian">Install the VS Code Extension</a>
         <a class="button secondary" href="https://github.com/Tharun135/documentation-agent-orchestrator-site">View on GitHub</a>
