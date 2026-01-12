@@ -126,90 +126,205 @@
       padding: 2rem;
     }
 
-    .demo-controls {
+    .toggle-container {
       display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1.5rem 0;
+      gap: 0;
     }
 
-    .demo-button {
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border);
+    .toggle-button {
+      padding: 0.75rem 2rem;
+      border: 2px solid var(--border);
       background: white;
-      border-radius: 6px;
       cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-      user-select: none;
-    }
-
-    .demo-button:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .demo-button:hover {
-      border-color: var(--accent);
-      background: #f0f7ff;
-    }
-
-    .demo-button.active {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    @media (max-width: 768px) {
-      .comparison-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .comparison-column {
-      background: white;
-      border-radius: 6px;
-      padding: 1rem;
-      border: 1px solid var(--border);
-    }
-
-    .comparison-column h4 {
-      margin-top: 0;
-      margin-bottom: 0.75rem;
       font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .badge {
-      font-size: 0.75rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
       font-weight: 600;
+      transition: all 0.2s;
+      flex: 1;
+      max-width: 250px;
     }
 
-    .badge-danger {
+    .toggle-button:first-child {
+      border-radius: 6px 0 0 6px;
+      border-right: 1px solid var(--border);
+    }
+
+    .toggle-button:last-child {
+      border-radius: 0 6px 6px 0;
+      border-left: 1px solid var(--border);
+    }
+
+    .toggle-button:hover {
+      background: #f8f9fb;
+    }
+
+    .toggle-button.active-bad {
       background: #fee;
+      border-color: #fcc;
       color: #c00;
     }
 
-    .badge-success {
+    .toggle-button.active-good {
       background: #efe;
+      border-color: #cfc;
       color: #060;
     }
 
-    .comparison-content {
+    .demo-source {
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
       font-size: 0.9rem;
-      line-height: 1.5;
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .demo-source strong {
+      display: block;
+      margin-bottom: 0.5rem;
       color: var(--fg);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .comparison-output {
+      background: white;
+      border-radius: 6px;
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+      min-height: 300px;
+    }
+
+    .comparison-output h4 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .comparison-output.bad {
+      border-color: #fcc;
+      background: #fffafa;
+    }
+
+    .comparison-output.good {
+      border-color: #cfc;
+      background: #fafffa;
+    }
+
+    .output-hidden {
+      display: none;
+    }
+
+    /* Quiz Styles */
+    .quiz-box {
+      background: #f8f9fb;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .quiz-options {
+      margin: 1rem 0;
+    }
+
+    .quiz-option {
+      display: block;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      background: #f0f7ff;
+      border-color: var(--accent);
+    }
+
+    .quiz-option.correct {
+      background: #efe;
+      border-color: #060;
+      cursor: default;
+    }
+
+    .quiz-option.wrong {
+      background: #fee;
+      border-color: #c00;
+      cursor: default;
+    }
+
+    .quiz-explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #efe;
+      border-left: 3px solid #060;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .quiz-explanation.show {
+      display: block;
+    }
+
+    /* Decision Flow */
+    .decision-flow {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      font-family: ui-monospace, monospace;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    /* Misconceptions */
+    .misconception-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .misconception-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .misconception-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    /* Sticky CTA */
+    .sticky-cta {
+      position: sticky;
+      top: 0;
+      background: var(--accent);
+      color: white;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .sticky-cta a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .sticky-cta a:hover {
+      text-decoration: underline;
     }
 
     .highlight-bad {
@@ -256,6 +371,11 @@
 </head>
 
 <body>
+  <!-- Sticky CTA -->
+  <div class="sticky-cta">
+    <a href="https://marketplace.visualstudio.com/manage/publishers/tharunsebastian">→ Install the VS Code Extension</a>
+  </div>
+
   <div class="container">
 
     <!-- Hero -->
@@ -306,35 +426,170 @@
 
     <!-- Live Comparison Demo -->
     <section class="comparison-demo">
-      <h2 style="margin-top: 0;">See the Difference: Live Comparison</h2>
-      <p class="muted">Choose an example to see how normal AI rewrites introduce hallucinations vs. governed AI that preserves accuracy.</p>
+      <h2 style="margin-top: 0;">Watch How Wrong Things Go Without This</h2>
+      <p class="muted">Toggle to see the difference between normal AI that hallucinates vs. governed AI that preserves accuracy.</p>
       
-      <div class="demo-controls">
-        <button class="demo-button active" data-example="login">Login Flow</button>
-        <button class="demo-button" data-example="api">API Documentation</button>
-        <button class="demo-button" data-example="config">Configuration</button>
-        <button class="demo-button" data-example="error">Error Handling</button>
-      </div>
-
       <div class="demo-source">
         <strong>Original Documentation:</strong>
-        <div id="demo-source-text"></div>
+User clicks login. Credentials checked.
+Valid → dashboard.
+Invalid → error.
+Admins get extra options.</div>
+
+      <div class="toggle-container">
+        <button class="toggle-button active-bad" id="btn-normal">❌ Normal AI</button>
+        <button class="toggle-button" id="btn-governed">✅ Governed AI</button>
       </div>
 
-      <div class="comparison-grid">
-        <div class="comparison-column">
-          <h4>
-            ❌ Normal AI Rewrite
-            <span class="badge badge-danger">Hallucinations</span>
-          </h4>
-          <div class="comparison-content" id="normal-output"></div>
+      <div class="comparison-output bad" id="output-normal">
+        <h4>Normal AI Rewrite (with hallucinations)</h4>
+        <p>The authentication process begins when the user clicks the Login button. <span class="highlight-bad">The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class="highlight-bad">the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class="highlight-bad">Invalid attempts are logged for security purposes</span> and an error message is displayed. <span class="highlight-bad">Administrator accounts have access to advanced settings, user management tools, and system analytics</span>.</p>
+        
+        <p style="margin-top: 1rem;"><strong>What was invented:</strong></p>
+        <ul>
+          <li>Specific encryption method (bcrypt)</li>
+          <li>Welcome message behavior</li>
+          <li>Security logging</li>
+          <li>Specific admin tools</li>
+        </ul>
+      </div>
+
+      <div class="comparison-output good output-hidden" id="output-governed">
+        <h4>Governed AI Rewrite (accurate)</h4>
+        <p><strong>Procedure</strong></p>
+        <ol>
+          <li>The user clicks the Login button.</li>
+          <li>The system checks the provided credentials.</li>
+          <li>If the credentials are valid, the system redirects the user to the dashboard.</li>
+          <li>If the credentials are invalid, the system displays an error message.</li>
+          <li>Admin users have access to additional options.</li>
+        </ol>
+        
+        <p style="margin-top: 1rem;"><strong>Preserved Ambiguities</strong></p>
+        <ul>
+          <li><span class="highlight-good">"dashboard"</span> (location not specified)</li>
+          <li><span class="highlight-good">"error message"</span> (content not specified)</li>
+          <li><span class="highlight-good">"additional options"</span> (options not defined)</li>
+          <li><span class="highlight-good">"credentials checked"</span> (method not specified)</li>
+        </ul>
+        <p class="muted" style="margin-top: 1rem;">The tool does not fix vague inputs. It exposes them.</p>
+      </div>
+    </section>
+
+    <!-- Preserved Ambiguities Section -->
+    <section>
+      <h2>What does "Preserved Ambiguity" mean?</h2>
+      <p>When source documentation is vague, normal AI fills in the gaps. This tool makes vagueness explicit instead.</p>
+      
+      <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin: 1rem 0;">
+        <p><strong>Input:</strong></p>
+        <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px;">Admins get extra options.</pre>
+        
+        <p style="margin-top: 1.5rem;"><strong>❌ Typical AI:</strong></p>
+        <p style="padding: 0.75rem; background: #fffafa; border-left: 3px solid #c00; border-radius: 4px;">
+          Admins are redirected to the admin dashboard with additional controls.
+        </p>
+        
+        <p style="margin-top: 1.5rem;"><strong>✅ Documentation Agent Orchestrator:</strong></p>
+        <p style="padding: 0.75rem; background: #fafffa; border-left: 3px solid #060; border-radius: 4px;">
+          Admin users have access to additional options.
+        </p>
+        
+        <p style="margin-top: 1rem;"><strong>Preserved Ambiguity:</strong><br>
+        <span class="highlight-good">"additional options" (not defined)</span></p>
+      </div>
+      
+      <p><strong>The tool does not fix vague inputs. It exposes them.</strong></p>
+    </section>
+
+    <!-- Decision Flow -->
+    <section>
+      <h2>When will it ask questions?</h2>
+      <p>The tool makes a simple decision for every documentation rewrite:</p>
+      
+      <div class="decision-flow">Can documentation be written without guessing?
+│
+├─ <strong>Yes</strong> → Document exactly what is provided
+│         Preserve ambiguity explicitly
+│
+└─ <strong>No</strong> → Stop and ask clarifying questions</div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+        <div style="background: #fafffa; border: 1px solid #cfc; border-radius: 6px; padding: 1rem;">
+          <p><strong>✅ Example: Proceeds</strong></p>
+          <p style="font-size: 0.9rem; color: var(--muted);">Input: "User logs in. System checks credentials."</p>
+          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Result: Documented exactly as written with preserved ambiguities.</p>
         </div>
-        <div class="comparison-column">
-          <h4>
-            ✅ With Governance
-            <span class="badge badge-success">Accurate</span>
-          </h4>
-          <div class="comparison-content" id="governed-output"></div>
+        <div style="background: #fffafa; border: 1px solid #fcc; border-radius: 6px; padding: 1rem;">
+          <p><strong>❌ Example: Blocks</strong></p>
+          <p style="font-size: 0.9rem; color: var(--muted);">Input: "Handle the login stuff properly."</p>
+          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Result: Questions: What is "login stuff"? What does "properly" mean?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Try It Mentally -->
+    <section>
+      <h2>Try it yourself (mentally)</h2>
+      <div class="quiz-box">
+        <p><strong>Input:</strong></p>
+        <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px; margin: 0.5rem 0;">User logs in and follows the standard workflow.</pre>
+        
+        <p><strong>What will the tool do?</strong></p>
+        <div class="quiz-options">
+          <label class="quiz-option" data-answer="wrong">
+            <input type="radio" name="quiz" value="A" style="margin-right: 0.5rem;">
+            (A) Guess what the workflow is
+          </label>
+          <label class="quiz-option" data-answer="correct">
+            <input type="radio" name="quiz" value="B" style="margin-right: 0.5rem;">
+            (B) Ask clarifying questions
+          </label>
+          <label class="quiz-option" data-answer="wrong">
+            <input type="radio" name="quiz" value="C" style="margin-right: 0.5rem;">
+            (C) Invent steps
+          </label>
+        </div>
+        <div class="quiz-explanation" id="quiz-explanation">
+          <strong>✅ Correct: (B) Ask clarifying questions</strong><br><br>
+          The input says "standard workflow" but doesn't define what that workflow is. The tool cannot document this without inventing information, so it stops and asks: "What is the standard workflow?"
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Misconceptions -->
+    <section>
+      <h2>Common misconceptions</h2>
+      <p>Setting expectations before you install:</p>
+      
+      <div class="misconception-grid">
+        <div class="misconception-item">
+          <span class="misconception-icon">❌</span>
+          <div>
+            <strong>"It will improve my writing"</strong><br>
+            <span class="muted">No. It intentionally avoids polishing sentences so that meaning remains traceable to the source.</span>
+          </div>
+        </div>
+        <div class="misconception-item">
+          <span class="misconception-icon">❌</span>
+          <div>
+            <strong>"It will clarify vague specs"</strong><br>
+            <span class="muted">No. It makes vagueness explicit rather than hiding it in fluent text.</span>
+          </div>
+        </div>
+        <div class="misconception-item">
+          <span class="misconception-icon">❌</span>
+          <div>
+            <strong>"It replaces human review"</strong><br>
+            <span class="muted">No. It enforces governance rules, but you still need to verify the output.</span>
+          </div>
+        </div>
+        <div class="misconception-item">
+          <span class="misconception-icon">✅</span>
+          <div>
+            <strong>"It prevents AI from lying"</strong><br>
+            <span class="muted">Yes. It stops AI from inventing facts and forces explicit preservation of ambiguity.</span>
+          </div>
         </div>
       </div>
     </section>
@@ -367,34 +622,6 @@
       </ol>
     </section>
 
-    <!-- Example -->
-    <section class="example">
-      <h2>Example</h2>
-
-      <h3>Before</h3>
-      <pre><code>User clicks login. Credentials checked.
-Valid → dashboard.
-Invalid → error.
-Admins get extra options.</code></pre>
-
-      <h3>After</h3>
-      <pre><code>Procedure
-1. The user clicks the Login button.
-2. The system checks the provided credentials.
-3. If the credentials are valid, the system redirects the user to the dashboard.
-4. If the credentials are invalid, the system displays an error message.
-5. Admin users have access to additional options.
-
-Preserved Ambiguities
-- "dashboard" (location not specified)
-- "error message" (message content not specified)
-- "extra options" (options not defined)</code></pre>
-
-      <p class="muted">
-        No invented behavior. No silent assumptions.
-      </p>
-    </section>
-
     <!-- Audience -->
     <section>
       <h2>Who this is for</h2>
@@ -412,94 +639,54 @@ Preserved Ambiguities
   </div>
 
   <script>
-    // Comparison demo examples
-    const examples = {
-      login: {
-        source: "User clicks login. Credentials checked.\\nValid → dashboard.\\nInvalid → error.\\nAdmins get extra options.",
-        normal: "The authentication process begins when the user clicks the Login button. <span class='highlight-bad'>The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class='highlight-bad'>the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class='highlight-bad'>Invalid attempts are logged for security purposes</span> and an error message is displayed. <span class='highlight-bad'>Administrator accounts have access to advanced settings, user management tools, and system analytics</span>.",
-        governed: "<strong>Procedure</strong><br>1. The user clicks the Login button.<br>2. The system checks the provided credentials.<br>3. If the credentials are valid, the system redirects the user to the dashboard.<br>4. If the credentials are invalid, the system displays an error message.<br>5. Admin users have access to additional options.<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>"dashboard" (location not specified)</span><br>• <span class='highlight-good'>"error message" (content not specified)</span><br>• <span class='highlight-good'>"extra options" (options not defined)</span><br>• <span class='highlight-good'>"credentials checked" (method not specified)</span>"
-      },
-      api: {
-        source: "POST /api/submit\\nSends data. Returns status.\\nRate limit applies.\\nAuth required.",
-        normal: "<span class='highlight-bad'>The POST endpoint accepts JSON payloads up to 10MB</span> and processes submissions asynchronously. <span class='highlight-bad'>It returns a 201 status code on success with a unique transaction ID</span>. <span class='highlight-bad'>Rate limiting is enforced at 100 requests per minute per IP address</span>. <span class='highlight-bad'>Authentication uses Bearer tokens with JWT format</span>. <span class='highlight-bad'>Failed requests return detailed error messages with suggested fixes</span>.",
-        governed: "<strong>Endpoint</strong><br>POST /api/submit<br><br><strong>Behavior</strong><br>• Sends data to the system<br>• Returns a status response<br>• Requires authentication<br>• Subject to rate limiting<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>"data" format not specified</span><br>• <span class='highlight-good'>"status" values not specified</span><br>• <span class='highlight-good'>Rate limit thresholds not specified</span><br>• <span class='highlight-good'>Authentication method not specified</span>"
-      },
-      config: {
-        source: "Set timeout in config file.\\nDefault is recommended.\\nHigher values = slower but safer.",
-        normal: "<span class='highlight-bad'>Configure the timeout parameter in config.json</span>. <span class='highlight-bad'>The default value is 30 seconds, which balances performance and reliability for most use cases</span>. Increasing the timeout <span class='highlight-bad'>provides more tolerance for network latency and slow backend responses</span>, but <span class='highlight-bad'>may impact user experience with longer wait times</span>. <span class='highlight-bad'>Values between 30-60 seconds are optimal for production environments</span>.",
-        governed: "<strong>Configuration</strong><br>• Timeout value can be set in the config file<br>• A default value exists (recommended)<br>• Higher values trade speed for safety<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>"config file" location/name not specified</span><br>• <span class='highlight-good'>Default timeout value not specified</span><br>• <span class='highlight-good'>"slower" meaning not quantified</span><br>• <span class='highlight-good'>"safer" meaning not defined</span><br>• <span class='highlight-good'>Relationship between values and safety not explained</span>"
-      },
-      error: {
-        source: "Errors logged to file.\\nCheck logs if issues.\\nContact support for critical problems.",
-        normal: "<span class='highlight-bad'>All application errors are automatically logged to /var/log/app.log with timestamps and stack traces</span>. <span class='highlight-bad'>When troubleshooting issues, check the most recent entries using tail -f</span>. For critical problems <span class='highlight-bad'>such as system crashes, data corruption, or security incidents</span>, <span class='highlight-bad'>contact support at support@example.com or call 1-800-SUPPORT within business hours (9 AM - 5 PM EST)</span>.",
-        governed: "<strong>Error Handling</strong><br>• Errors are logged to a file<br>• Logs can be checked when issues occur<br>• Support should be contacted for critical problems<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>Log file location not specified</span><br>• <span class='highlight-good'>Log file format not specified</span><br>• <span class='highlight-good'>"issues" not defined</span><br>• <span class='highlight-good'>"critical problems" not defined</span><br>• <span class='highlight-good'>How to contact support not specified</span>"
-      }
-    };
-
     // Wait for DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOM loaded, initializing demo...');
-      let currentExample = 'login';
+      // Toggle functionality
+      const btnNormal = document.getElementById('btn-normal');
+      const btnGoverned = document.getElementById('btn-governed');
+      const outputNormal = document.getElementById('output-normal');
+      const outputGoverned = document.getElementById('output-governed');
       
-      function updateDemo(exampleKey) {
-        console.log('Updating demo to:', exampleKey);
-        currentExample = exampleKey;
-        const example = examples[exampleKey];
+      btnNormal.addEventListener('click', function() {
+        btnNormal.classList.add('active-bad');
+        btnNormal.classList.remove('active-good');
+        btnGoverned.classList.remove('active-bad', 'active-good');
         
-        if (!example) {
-          console.error('Example not found:', exampleKey);
-          return;
-        }
-        
-        // Update source
-        const sourceElement = document.getElementById('demo-source-text');
-        if (sourceElement) {
-          sourceElement.innerHTML = example.source.replace(/\\n/g, '<br>');
-        } else {
-          console.error('Source element not found');
-        }
-        
-        // Update outputs
-        const normalOutput = document.getElementById('normal-output');
-        const governedOutput = document.getElementById('governed-output');
-        
-        if (normalOutput) {
-          normalOutput.innerHTML = example.normal;
-        } else {
-          console.error('Normal output element not found');
-        }
-        if (governedOutput) {
-          governedOutput.innerHTML = example.governed;
-        } else {
-          console.error('Governed output element not found');
-        }
-        
-        // Update active button
-        document.querySelectorAll('.demo-button').forEach(btn => {
-          if (btn.dataset.example === exampleKey) {
-            btn.classList.add('active');
-          } else {
-            btn.classList.remove('active');
-          }
-        });
-      }
-
-      // Add click handlers
-      const buttons = document.querySelectorAll('.demo-button');
-      console.log('Found buttons:', buttons.length);
+        outputNormal.classList.remove('output-hidden');
+        outputGoverned.classList.add('output-hidden');
+      });
       
-      buttons.forEach((button, index) => {
-        console.log('Button', index, ':', button.dataset.example);
-        button.addEventListener('click', function(e) {
-          e.preventDefault();
-          console.log('Button clicked:', this.dataset.example);
-          updateDemo(this.dataset.example);
+      btnGoverned.addEventListener('click', function() {
+        btnGoverned.classList.add('active-good');
+        btnGoverned.classList.remove('active-bad');
+        btnNormal.classList.remove('active-bad', 'active-good');
+        
+        outputGoverned.classList.remove('output-hidden');
+        outputNormal.classList.add('output-hidden');
+      });
+      
+      // Quiz functionality
+      const quizOptions = document.querySelectorAll('.quiz-option');
+      const quizExplanation = document.getElementById('quiz-explanation');
+      
+      quizOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          const isCorrect = this.dataset.answer === 'correct';
+          
+          // Disable all options
+          quizOptions.forEach(opt => {
+            opt.style.pointerEvents = 'none';
+            if (opt.dataset.answer === 'correct') {
+              opt.classList.add('correct');
+            } else {
+              opt.classList.add('wrong');
+            }
+          });
+          
+          // Show explanation
+          quizExplanation.classList.add('show');
         });
       });
-
-      // Initialize
-      console.log('Initializing with login example');
-      updateDemo('login');
     });
   </script>
 
