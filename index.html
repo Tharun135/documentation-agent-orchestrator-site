@@ -327,6 +327,74 @@
       text-decoration: underline;
     }
 
+    /* Accordion/Collapsible Sections */
+    .collapsible-section {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+
+    .collapsible-header {
+      padding: 1rem 1.5rem;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.2s;
+      user-select: none;
+    }
+
+    .collapsible-header:hover {
+      background: #f8f9fb;
+    }
+
+    .collapsible-icon {
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+
+    .collapsible-header.active .collapsible-icon {
+      transform: rotate(90deg);
+    }
+
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .collapsible-content-inner {
+      padding: 1.5rem;
+      background: white;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      background: var(--code-bg);
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin: 3rem 0 2rem;
+    }
+
+    .final-cta h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .final-cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
     .highlight-bad {
       background: #fee;
       padding: 0.1rem 0.2rem;
@@ -386,13 +454,17 @@
         by enforcing strict governance rules.
       </p>
       <p class="muted">
-        It documents exactly what you provide, preserves ambiguity explicitly,
-        or stops and asks questions when invention would be required.
+        It either documents exactly what you provide, or stops before it would have to guess.
       </p>
       <div class="cta">
         <a class="button" href="https://marketplace.visualstudio.com/manage/publishers/tharunsebastian">Install the VS Code Extension</a>
         <a class="button secondary" href="https://github.com/Tharun135/documentation-agent-orchestrator-site">View on GitHub</a>
       </div>
+    </section>
+
+    <!-- Early Warning -->
+    <section style="background: #fffaf0; border: 2px solid #ff9800; border-radius: 6px; padding: 1rem; margin-top: 1.5rem;">
+      <p style="margin: 0;">⚠️ <strong>This is not a writing or polishing tool.</strong> It is a governance and inspection tool.</p>
     </section>
 
     <!-- Problem -->
@@ -443,14 +515,13 @@ Admins get extra options.</div>
 
       <div class="comparison-output bad" id="output-normal">
         <h4>Normal AI Rewrite (with hallucinations)</h4>
-        <p>The authentication process begins when the user clicks the Login button. <span class="highlight-bad">The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class="highlight-bad">the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class="highlight-bad">Invalid attempts are logged for security purposes</span> and an error message is displayed. <span class="highlight-bad">Administrator accounts have access to advanced settings, user management tools, and system analytics</span>.</p>
+        <p>The authentication process begins when the user clicks the Login button. <span class="highlight-bad">The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class="highlight-bad">the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class="highlight-bad">Invalid attempts are logged for security purposes</span> and an error message is displayed. Administrator accounts have access to additional options.</p>
         
         <p style="margin-top: 1rem;"><strong>What was invented:</strong></p>
         <ul>
           <li>Specific encryption method (bcrypt)</li>
           <li>Welcome message behavior</li>
           <li>Security logging</li>
-          <li>Specific admin tools</li>
         </ul>
       </div>
 
@@ -477,122 +548,150 @@ Admins get extra options.</div>
     </section>
 
     <!-- Preserved Ambiguities Section -->
-    <section>
-      <h2>What does "Preserved Ambiguity" mean?</h2>
-      <p>When source documentation is vague, normal AI fills in the gaps. This tool makes vagueness explicit instead.</p>
-      
-      <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin: 1rem 0;">
-        <p><strong>Input:</strong></p>
-        <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px;">Admins get extra options.</pre>
-        
-        <p style="margin-top: 1.5rem;"><strong>❌ Typical AI:</strong></p>
-        <p style="padding: 0.75rem; background: #fffafa; border-left: 3px solid #c00; border-radius: 4px;">
-          Admins are redirected to the admin dashboard with additional controls.
-        </p>
-        
-        <p style="margin-top: 1.5rem;"><strong>✅ Documentation Agent Orchestrator:</strong></p>
-        <p style="padding: 0.75rem; background: #fafffa; border-left: 3px solid #060; border-radius: 4px;">
-          Admin users have access to additional options.
-        </p>
-        
-        <p style="margin-top: 1rem;"><strong>Preserved Ambiguity:</strong><br>
-        <span class="highlight-good">"additional options" (not defined)</span></p>
+    <div class="collapsible-section">
+      <div class="collapsible-header">
+        <span class="collapsible-icon">▶</span>
+        <span>What does "Preserved Ambiguity" mean?</span>
       </div>
-      
-      <p><strong>The tool does not fix vague inputs. It exposes them.</strong></p>
-    </section>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <p>When source documentation is vague, normal AI fills in the gaps. This tool makes vagueness explicit instead.</p>
+          
+          <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin: 1rem 0;">
+            <p><strong>Input:</strong></p>
+            <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px;">Admins get extra options.</pre>
+            
+            <p style="margin-top: 1.5rem;"><strong>❌ Typical AI:</strong></p>
+            <p style="padding: 0.75rem; background: #fffafa; border-left: 3px solid #c00; border-radius: 4px;">
+              Admins are redirected to the admin dashboard with additional controls.
+            </p>
+            
+            <p style="margin-top: 1.5rem;"><strong>✅ Documentation Agent Orchestrator:</strong></p>
+            <p style="padding: 0.75rem; background: #fafffa; border-left: 3px solid #060; border-radius: 4px;">
+              Admin users have access to additional options.
+            </p>
+            
+            <p style="margin-top: 1rem;"><strong>Preserved Ambiguity:</strong><br>
+            <span class="highlight-good">"additional options" (not defined)</span></p>
+          </div>
+          
+          <p><strong>The tool does not fix vague inputs. It exposes them.</strong></p>
+        </div>
+      </div>
+    </div>
 
     <!-- Decision Flow -->
-    <section>
-      <h2>When will it ask questions?</h2>
-      <p>The tool makes a simple decision for every documentation rewrite:</p>
-      
-      <div class="decision-flow">Can documentation be written without guessing?
+    <div class="collapsible-section">
+      <div class="collapsible-header">
+        <span class="collapsible-icon">▶</span>
+        <span>When will it ask questions?</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <p>The tool makes a simple decision for every documentation rewrite:</p>
+          
+          <div class="decision-flow">Can documentation be written without guessing?
 │
 ├─ <strong>Yes</strong> → Document exactly what is provided
 │         Preserve ambiguity explicitly
 │
 └─ <strong>No</strong> → Stop and ask clarifying questions</div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
-        <div style="background: #fafffa; border: 1px solid #cfc; border-radius: 6px; padding: 1rem;">
-          <p><strong>✅ Example: Proceeds</strong></p>
-          <p style="font-size: 0.9rem; color: var(--muted);">Input: "User logs in. System checks credentials."</p>
-          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Result: Documented exactly as written with preserved ambiguities.</p>
-        </div>
-        <div style="background: #fffafa; border: 1px solid #fcc; border-radius: 6px; padding: 1rem;">
-          <p><strong>❌ Example: Blocks</strong></p>
-          <p style="font-size: 0.9rem; color: var(--muted);">Input: "Handle the login stuff properly."</p>
-          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Result: Questions: What is "login stuff"? What does "properly" mean?</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+            <div style="background: #fafffa; border: 1px solid #cfc; border-radius: 6px; padding: 1rem;">
+              <p><strong>✅ Example: Proceeds</strong></p>
+              <p style="font-size: 0.9rem; color: var(--muted);">Input: "User logs in. System checks credentials."</p>
+              <p style="font-size: 0.9rem; margin-top: 0.5rem;">Result: Documented exactly as written with preserved ambiguities.</p>
+            </div>
+            <div style="background: #fffafa; border: 1px solid #fcc; border-radius: 6px; padding: 1rem;">
+              <p><strong>❌ Example: Blocks</strong></p>
+              <p style="font-size: 0.9rem; color: var(--muted);">Input: "Handle the login stuff properly."</p>
+              <p style="font-size: 0.9rem; margin-top: 0.5rem;">Result: Questions: What is "login stuff"? What does "properly" mean?</p>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- Try It Mentally -->
-    <section>
-      <h2>Try it yourself (mentally)</h2>
-      <div class="quiz-box">
-        <p><strong>Input:</strong></p>
-        <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px; margin: 0.5rem 0;">User logs in and follows the standard workflow.</pre>
-        
-        <p><strong>What will the tool do?</strong></p>
-        <div class="quiz-options">
-          <label class="quiz-option" data-answer="wrong">
-            <input type="radio" name="quiz" value="A" style="margin-right: 0.5rem;">
-            (A) Guess what the workflow is
-          </label>
-          <label class="quiz-option" data-answer="correct">
-            <input type="radio" name="quiz" value="B" style="margin-right: 0.5rem;">
-            (B) Ask clarifying questions
-          </label>
-          <label class="quiz-option" data-answer="wrong">
-            <input type="radio" name="quiz" value="C" style="margin-right: 0.5rem;">
-            (C) Invent steps
-          </label>
-        </div>
-        <div class="quiz-explanation" id="quiz-explanation">
-          <strong>✅ Correct: (B) Ask clarifying questions</strong><br><br>
-          The input says "standard workflow" but doesn't define what that workflow is. The tool cannot document this without inventing information, so it stops and asks: "What is the standard workflow?"
+    <div class="collapsible-section">
+      <div class="collapsible-header">
+        <span class="collapsible-icon">▶</span>
+        <span>Try it yourself (mentally)</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <div class="quiz-box">
+            <p><strong>Input:</strong></p>
+            <pre style="background: #f5f5f5; padding: 0.75rem; border-radius: 4px; margin: 0.5rem 0;">User logs in and follows the standard workflow.</pre>
+            
+            <p><strong>What will the tool do?</strong></p>
+            <div class="quiz-options">
+              <label class="quiz-option" data-answer="wrong">
+                <input type="radio" name="quiz" value="A" style="margin-right: 0.5rem;">
+                (A) Guess what the workflow is
+              </label>
+              <label class="quiz-option" data-answer="correct">
+                <input type="radio" name="quiz" value="B" style="margin-right: 0.5rem;">
+                (B) Ask clarifying questions
+              </label>
+              <label class="quiz-option" data-answer="wrong">
+                <input type="radio" name="quiz" value="C" style="margin-right: 0.5rem;">
+                (C) Invent steps
+              </label>
+            </div>
+            <div class="quiz-explanation" id="quiz-explanation">
+              <strong>✅ Correct: (B) Ask clarifying questions</strong><br><br>
+              The input says "standard workflow" but doesn't define what that workflow is. The tool cannot document this without inventing information, so it stops and asks: "What is the standard workflow?"
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- Common Misconceptions -->
-    <section>
-      <h2>Common misconceptions</h2>
-      <p>Setting expectations before you install:</p>
-      
-      <div class="misconception-grid">
-        <div class="misconception-item">
-          <span class="misconception-icon">❌</span>
-          <div>
-            <strong>"It will improve my writing"</strong><br>
-            <span class="muted">No. It intentionally avoids polishing sentences so that meaning remains traceable to the source.</span>
-          </div>
-        </div>
-        <div class="misconception-item">
-          <span class="misconception-icon">❌</span>
-          <div>
-            <strong>"It will clarify vague specs"</strong><br>
-            <span class="muted">No. It makes vagueness explicit rather than hiding it in fluent text.</span>
-          </div>
-        </div>
-        <div class="misconception-item">
-          <span class="misconception-icon">❌</span>
-          <div>
-            <strong>"It replaces human review"</strong><br>
-            <span class="muted">No. It enforces governance rules, but you still need to verify the output.</span>
-          </div>
-        </div>
-        <div class="misconception-item">
-          <span class="misconception-icon">✅</span>
-          <div>
-            <strong>"It prevents AI from lying"</strong><br>
-            <span class="muted">Yes. It stops AI from inventing facts and forces explicit preservation of ambiguity.</span>
+    <div class="collapsible-section">
+      <div class="collapsible-header">
+        <span class="collapsible-icon">▶</span>
+        <span>Common misconceptions</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <p>Setting expectations before you install:</p>
+          
+          <div class="misconception-grid">
+            <div class="misconception-item">
+              <span class="misconception-icon">❌</span>
+              <div>
+                <strong>"It will improve my writing"</strong><br>
+                <span class="muted">No. It intentionally avoids polishing sentences so that meaning remains traceable to the source.</span>
+              </div>
+            </div>
+            <div class="misconception-item">
+              <span class="misconception-icon">❌</span>
+              <div>
+                <strong>"It will clarify vague specs"</strong><br>
+                <span class="muted">No. It makes vagueness explicit rather than hiding it in fluent text.</span>
+              </div>
+            </div>
+            <div class="misconception-item">
+              <span class="misconception-icon">❌</span>
+              <div>
+                <strong>"It replaces human review"</strong><br>
+                <span class="muted">No. It enforces governance rules, but you still need to verify the output.</span>
+              </div>
+            </div>
+            <div class="misconception-item">
+              <span class="misconception-icon">✅</span>
+              <div>
+                <strong>"It prevents AI from lying"</strong><br>
+                <span class="muted">Yes. It stops AI from inventing facts and forces explicit preservation of ambiguity.</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- What it does NOT do -->
     <section>
@@ -629,6 +728,16 @@ Admins get extra options.</div>
       <p><strong>Not for:</strong> Content polishing, grammar correction, creative rewriting.</p>
     </section>
 
+    <!-- Final CTA -->
+    <div class="final-cta">
+      <h2>If this sounds like your problem</h2>
+      <p>You're accountable for documentation accuracy, and AI keeps inventing details.</p>
+      <div class="final-cta-buttons">
+        <a class="button" href="https://marketplace.visualstudio.com/manage/publishers/tharunsebastian">Install the VS Code Extension</a>
+        <a class="button secondary" href="https://github.com/Tharun135/documentation-agent-orchestrator-site">View on GitHub</a>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer>
       <a href="https://marketplace.visualstudio.com/">VS Code Marketplace</a>
@@ -641,52 +750,82 @@ Admins get extra options.</div>
   <script>
     // Wait for DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', function() {
-      // Toggle functionality
+      // Toggle functionality for Normal AI vs Governed AI
       const btnNormal = document.getElementById('btn-normal');
       const btnGoverned = document.getElementById('btn-governed');
       const outputNormal = document.getElementById('output-normal');
       const outputGoverned = document.getElementById('output-governed');
       
-      btnNormal.addEventListener('click', function() {
-        btnNormal.classList.add('active-bad');
-        btnNormal.classList.remove('active-good');
-        btnGoverned.classList.remove('active-bad', 'active-good');
+      if (btnNormal && btnGoverned && outputNormal && outputGoverned) {
+        btnNormal.addEventListener('click', function() {
+          btnNormal.classList.add('active-bad');
+          btnNormal.classList.remove('active-good');
+          btnGoverned.classList.remove('active-bad', 'active-good');
+          
+          outputNormal.classList.remove('output-hidden');
+          outputGoverned.classList.add('output-hidden');
+        });
         
-        outputNormal.classList.remove('output-hidden');
-        outputGoverned.classList.add('output-hidden');
-      });
+        btnGoverned.addEventListener('click', function() {
+          btnGoverned.classList.add('active-good');
+          btnGoverned.classList.remove('active-bad');
+          btnNormal.classList.remove('active-bad', 'active-good');
+          
+          outputGoverned.classList.remove('output-hidden');
+          outputNormal.classList.add('output-hidden');
+        });
+      }
       
-      btnGoverned.addEventListener('click', function() {
-        btnGoverned.classList.add('active-good');
-        btnGoverned.classList.remove('active-bad');
-        btnNormal.classList.remove('active-bad', 'active-good');
-        
-        outputGoverned.classList.remove('output-hidden');
-        outputNormal.classList.add('output-hidden');
+      // Collapsible/Accordion functionality
+      const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+      
+      collapsibleHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const isActive = this.classList.contains('active');
+          
+          if (isActive) {
+            // Collapse
+            this.classList.remove('active');
+            content.style.maxHeight = null;
+          } else {
+            // Expand
+            this.classList.add('active');
+            content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
       });
       
       // Quiz functionality
       const quizOptions = document.querySelectorAll('.quiz-option');
       const quizExplanation = document.getElementById('quiz-explanation');
       
-      quizOptions.forEach(option => {
-        option.addEventListener('click', function() {
-          const isCorrect = this.dataset.answer === 'correct';
-          
-          // Disable all options
-          quizOptions.forEach(opt => {
-            opt.style.pointerEvents = 'none';
-            if (opt.dataset.answer === 'correct') {
-              opt.classList.add('correct');
-            } else {
-              opt.classList.add('wrong');
+      if (quizOptions.length > 0 && quizExplanation) {
+        quizOptions.forEach(option => {
+          option.addEventListener('click', function() {
+            const isCorrect = this.dataset.answer === 'correct';
+            
+            // Disable all options
+            quizOptions.forEach(opt => {
+              opt.style.pointerEvents = 'none';
+              if (opt.dataset.answer === 'correct') {
+                opt.classList.add('correct');
+              } else {
+                opt.classList.add('wrong');
+              }
+            });
+            
+            // Show explanation
+            quizExplanation.classList.add('show');
+            
+            // Expand parent collapsible if needed
+            const parentContent = this.closest('.collapsible-content');
+            if (parentContent) {
+              parentContent.style.maxHeight = parentContent.scrollHeight + 'px';
             }
           });
-          
-          // Show explanation
-          quizExplanation.classList.add('show');
         });
-      });
+      }
     });
   </script>
 
