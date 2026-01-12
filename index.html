@@ -409,56 +409,73 @@ Preserved Ambiguities
     // Comparison demo examples
     const examples = {
       login: {
-        source: "User clicks login. Credentials checked.\nValid → dashboard.\nInvalid → error.\nAdmins get extra options.",
+        source: "User clicks login. Credentials checked.\\nValid → dashboard.\\nInvalid → error.\\nAdmins get extra options.",
         normal: "The authentication process begins when the user clicks the Login button. <span class='highlight-bad'>The system validates the credentials against the database using bcrypt encryption</span>. If the credentials are correct, <span class='highlight-bad'>the user is seamlessly redirected to the main dashboard with a welcome message</span>. <span class='highlight-bad'>Invalid attempts are logged for security purposes</span> and an error message is displayed. <span class='highlight-bad'>Administrator accounts have access to advanced settings, user management tools, and system analytics</span>.",
         governed: "<strong>Procedure</strong><br>1. The user clicks the Login button.<br>2. The system checks the provided credentials.<br>3. If the credentials are valid, the system redirects the user to the dashboard.<br>4. If the credentials are invalid, the system displays an error message.<br>5. Admin users have access to additional options.<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>"dashboard" (location not specified)</span><br>• <span class='highlight-good'>"error message" (content not specified)</span><br>• <span class='highlight-good'>"extra options" (options not defined)</span><br>• <span class='highlight-good'>"credentials checked" (method not specified)</span>"
       },
       api: {
-        source: "POST /api/submit\nSends data. Returns status.\nRate limit applies.\nAuth required.",
+        source: "POST /api/submit\\nSends data. Returns status.\\nRate limit applies.\\nAuth required.",
         normal: "<span class='highlight-bad'>The POST endpoint accepts JSON payloads up to 10MB</span> and processes submissions asynchronously. <span class='highlight-bad'>It returns a 201 status code on success with a unique transaction ID</span>. <span class='highlight-bad'>Rate limiting is enforced at 100 requests per minute per IP address</span>. <span class='highlight-bad'>Authentication uses Bearer tokens with JWT format</span>. <span class='highlight-bad'>Failed requests return detailed error messages with suggested fixes</span>.",
         governed: "<strong>Endpoint</strong><br>POST /api/submit<br><br><strong>Behavior</strong><br>• Sends data to the system<br>• Returns a status response<br>• Requires authentication<br>• Subject to rate limiting<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>"data" format not specified</span><br>• <span class='highlight-good'>"status" values not specified</span><br>• <span class='highlight-good'>Rate limit thresholds not specified</span><br>• <span class='highlight-good'>Authentication method not specified</span>"
       },
       config: {
-        source: "Set timeout in config file.\nDefault is recommended.\nHigher values = slower but safer.",
+        source: "Set timeout in config file.\\nDefault is recommended.\\nHigher values = slower but safer.",
         normal: "<span class='highlight-bad'>Configure the timeout parameter in config.json</span>. <span class='highlight-bad'>The default value is 30 seconds, which balances performance and reliability for most use cases</span>. Increasing the timeout <span class='highlight-bad'>provides more tolerance for network latency and slow backend responses</span>, but <span class='highlight-bad'>may impact user experience with longer wait times</span>. <span class='highlight-bad'>Values between 30-60 seconds are optimal for production environments</span>.",
         governed: "<strong>Configuration</strong><br>• Timeout value can be set in the config file<br>• A default value exists (recommended)<br>• Higher values trade speed for safety<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>"config file" location/name not specified</span><br>• <span class='highlight-good'>Default timeout value not specified</span><br>• <span class='highlight-good'>"slower" meaning not quantified</span><br>• <span class='highlight-good'>"safer" meaning not defined</span><br>• <span class='highlight-good'>Relationship between values and safety not explained</span>"
       },
       error: {
-        source: "Errors logged to file.\nCheck logs if issues.\nContact support for critical problems.",
+        source: "Errors logged to file.\\nCheck logs if issues.\\nContact support for critical problems.",
         normal: "<span class='highlight-bad'>All application errors are automatically logged to /var/log/app.log with timestamps and stack traces</span>. <span class='highlight-bad'>When troubleshooting issues, check the most recent entries using tail -f</span>. For critical problems <span class='highlight-bad'>such as system crashes, data corruption, or security incidents</span>, <span class='highlight-bad'>contact support at support@example.com or call 1-800-SUPPORT within business hours (9 AM - 5 PM EST)</span>.",
         governed: "<strong>Error Handling</strong><br>• Errors are logged to a file<br>• Logs can be checked when issues occur<br>• Support should be contacted for critical problems<br><br><strong>Preserved Ambiguities</strong><br>• <span class='highlight-good'>Log file location not specified</span><br>• <span class='highlight-good'>Log file format not specified</span><br>• <span class='highlight-good'>"issues" not defined</span><br>• <span class='highlight-good'>"critical problems" not defined</span><br>• <span class='highlight-good'>How to contact support not specified</span>"
       }
     };
 
-    // Initialize with first example
-    let currentExample = 'login';
-    
-    function updateDemo(exampleKey) {
-      currentExample = exampleKey;
-      const example = examples[exampleKey];
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      let currentExample = 'login';
       
-      // Update source
-      document.getElementById('demo-source-text').textContent = example.source;
-      
-      // Update outputs
-      document.getElementById('normal-output').innerHTML = example.normal;
-      document.getElementById('governed-output').innerHTML = example.governed;
-      
-      // Update active button
-      document.querySelectorAll('.demo-button').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.example === exampleKey);
-      });
-    }
+      function updateDemo(exampleKey) {
+        currentExample = exampleKey;
+        const example = examples[exampleKey];
+        
+        // Update source
+        const sourceElement = document.getElementById('demo-source-text');
+        if (sourceElement) {
+          sourceElement.innerHTML = example.source.replace(/\\n/g, '<br>');
+        }
+        
+        // Update outputs
+        const normalOutput = document.getElementById('normal-output');
+        const governedOutput = document.getElementById('governed-output');
+        
+        if (normalOutput) {
+          normalOutput.innerHTML = example.normal;
+        }
+        if (governedOutput) {
+          governedOutput.innerHTML = example.governed;
+        }
+        
+        // Update active button
+        document.querySelectorAll('.demo-button').forEach(btn => {
+          if (btn.dataset.example === exampleKey) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
 
-    // Add click handlers
-    document.querySelectorAll('.demo-button').forEach(button => {
-      button.addEventListener('click', () => {
-        updateDemo(button.dataset.example);
+      // Add click handlers
+      const buttons = document.querySelectorAll('.demo-button');
+      buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          updateDemo(this.dataset.example);
+        });
       });
+
+      // Initialize
+      updateDemo('login');
     });
-
-    // Initialize
-    updateDemo('login');
   </script>
 
 </body>
