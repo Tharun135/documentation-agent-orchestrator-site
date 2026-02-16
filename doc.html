@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Technical Documentation - Documentation Agent Orchestrator</title>
+  <meta name="description" content="Complete technical documentation for the Documentation Agent Orchestrator VS Code extension." />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #555555;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --code-bg: #f8f9fb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.25;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-top: 3rem;
+      color: var(--accent);
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 2rem;
+    }
+
+    h4 {
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+
+    p {
+      margin: 0.75rem 0;
+      color: var(--fg);
+    }
+
+    ul, ol {
+      padding-left: 1.5rem;
+      margin: 0.75rem 0;
+    }
+
+    li {
+      margin: 0.4rem 0;
+    }
+
+    pre {
+      background: var(--code-bg);
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      margin: 1rem 0;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: var(--code-bg);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .toc {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .toc h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+    }
+
+    .toc ol {
+      margin: 0.5rem 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--muted);
+      margin: 0 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to Home</a>
+
+    <h1>Technical Documentation: Documentation Agent Orchestrator</h1>
+
+    <div class="toc">
+      <h2>Table of Contents</h2>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#core-components">Core Components</a></li>
+        <li><a href="#command-details">Command Details</a></li>
+        <li><a href="#governance-system">Governance System</a></li>
+        <li><a href="#prompt-generation-logic">Prompt Generation Logic</a></li>
+        <li><a href="#workflow-details">Workflow Details</a></li>
+        <li><a href="#extension-api">Extension API</a></li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <h2 id="overview">Overview</h2>
+
+    <p><strong>Documentation Agent Orchestrator</strong> is a VS Code extension that acts as a governance layer between raw content and AI-generated documentation. It enforces strict rules to prevent AI hallucination while enabling AI to create structured documentation from rough notes, code comments, or incomplete specifications.</p>
+
+    <h3>Key Principles</h3>
+
+    <ul>
+      <li><strong>Correctness over fluency</strong> - Accurate documentation is prioritized over well-written documentation</li>
+      <li><strong>Preserve ambiguity</strong> - Vague source content should produce vague but accurate documentation</li>
+      <li><strong>No invention</strong> - AI cannot add features, steps, or details not present in source material</li>
+      <li><strong>Explicit uncertainty</strong> - Ambiguous elements are explicitly documented in "Preserved Ambiguities" sections</li>
+      <li><strong>Question-driven clarification</strong> - AI asks questions only when documentation generation is blocked</li>
+    </ul>
+
+    <hr>
+
+    <h2 id="architecture">Architecture</h2>
+
+    <h3>High-Level Design</h3>
+
+    <pre><code>┌─────────────────────┐
+│   User Content      │ (Rough notes, code comments, specs)
+│   (VS Code Editor)  │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Extension Layer    │ (extension.ts)
+│  - Command handlers │
+│  - State management │
+│  - UI interactions  │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│   Engine Layer      │
+│  - promptGenerator  │ (Core logic)
+│  - governance       │ (Rules)
+│  - types            │ (Type system)
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Generated Prompt   │ (Markdown document)
+│  + Clipboard copy   │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  External AI        │ (Claude, ChatGPT, etc.)
+│  (User pastes)      │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  AI Response        │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Diff Preview       │ (VS Code diff viewer)
+│  Original vs New    │
+└─────────────────────┘</code></pre>
+
+    <h3>Project Structure</h3>
+
+    <pre><code>doc-agent-orchestrator/
+├── src/
+│   ├── extension.ts           # Entry point, command registration
+│   └── engine/
+│       ├── governance.ts      # Governance rules definition
+│       ├── promptGenerator.ts # Core prompt generation logic
+│       └── types.ts          # TypeScript type definitions
+├── out/                       # Compiled JavaScript (build output)
+├── DEMO/                      # Demo examples and guides
+├── TESTING/                   # Test cases (25 scenarios)
+├── package.json              # Extension manifest
+├── tsconfig.json             # TypeScript configuration
+└── README.md                 # User-facing documentation</code></pre>
+
+    <hr>
+
+    <h2 id="how-it-works">How It Works</h2>
+
+    <h3>End-to-End Flow</h3>
+
+    <h4>Phase 1: Prompt Generation</h4>
+
+    <ol>
+      <li><strong>User selects content</strong> in VS Code (or uses entire file)</li>
+      <li><strong>User triggers command</strong>: "Generate Documentation Prompt"</li>
+      <li><strong>Extension captures</strong>:
+        <ul>
+          <li>Selected text or full document content</li>
+          <li>Document language ID</li>
+          <li>Original text for later diff comparison</li>
+        </ul>
+      </li>
+      <li><strong>User selects documentation type</strong> from quick pick menu (7 options)</li>
+      <li><strong>User provides intent</strong> via input box (e.g., "Document login process")</li>
+      <li><strong>Engine generates governed prompt</strong>:
+        <ul>
+          <li>Applies governance rules</li>
+          <li>Injects task-specific output structure</li>
+          <li>Includes source content</li>
+          <li>Adds missing information policy</li>
+        </ul>
+      </li>
+      <li><strong>Extension displays prompt</strong>:
+        <ul>
+          <li>Opens in new editor (split view)</li>
+          <li>Automatically copies to clipboard</li>
+          <li>Shows success notification</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h4>Phase 2: AI Interaction (External)</h4>
+
+    <ol>
+      <li><strong>User pastes prompt</strong> into AI assistant (Claude, ChatGPT, etc.)</li>
+      <li><strong>AI generates response</strong> following governance rules</li>
+      <li><strong>User receives</strong>:
+        <ul>
+          <li>Structured documentation, OR</li>
+          <li>Clarifying questions if generation is blocked</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h4>Phase 3: Clarification Loop (Optional)</h4>
+
+    <ol start="4">
+      <li><strong>If AI asks questions</strong>:
+        <ul>
+          <li>User runs "Provide Clarifications and Regenerate Prompt"</li>
+          <li>User enters answers to AI's questions</li>
+          <li>Extension regenerates prompt with clarifications section</li>
+          <li>Prompt includes: "Clarifications have been provided - treat as authoritative facts"</li>
+          <li>User pastes updated prompt into AI</li>
+          <li>AI generates documentation using clarifications</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h4>Phase 4: Diff Preview</h4>
+
+    <ol>
+      <li><strong>User triggers</strong>: "Preview Documentation Rewrite Diff"</li>
+      <li><strong>Extension retrieves AI response</strong> from:
+        <ul>
+          <li>Current editor content (if available), OR</li>
+          <li>Clipboard content</li>
+        </ul>
+      </li>
+      <li><strong>Extension opens diff view</strong>:
+        <ul>
+          <li>Left panel: Original content</li>
+          <li>Right panel: AI-generated content</li>
+          <li>Side-by-side comparison with inline changes highlighted</li>
+        </ul>
+      </li>
+      <li><strong>User reviews</strong>:
+        <ul>
+          <li>Check "Preserved Ambiguities" section</li>
+          <li>Verify no invented features</li>
+          <li>Validate terminology consistency</li>
+          <li>Review "Governance Notes" if present (indicates violations)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <hr>
+
+    <h2 id="core-components">Core Components</h2>
+
+    <h3>1. Extension Entry Point (<code>src/extension.ts</code>)</h3>
+
+    <p><strong>Responsibilities:</strong></p>
+
+    <ul>
+      <li>Register three commands with VS Code</li>
+      <li>Manage state between commands (context persistence)</li>
+      <li>Handle user input and validation</li>
+      <li>Coordinate with prompt generation engine</li>
+      <li>Manage clipboard operations</li>
+      <li>Open diff views</li>
+    </ul>
+
+    <p><strong>Key State Variables:</strong></p>
+
+    <pre><code>// Stores original content for diff comparison
+let lastRewriteContext: {
+  originalText: string;
+  languageId: string;
+} | null = null;
+
+// Stores prompt context for clarification regeneration
+let lastPromptContext: {
+  taskType: TaskType;
+  userIntent: string;
+  context: string;
+} | null = null;</code></pre>
+
+    <p><strong>Activation:</strong></p>
+
+    <ul>
+      <li>Extension activates when VS Code loads (no specific activation events)</li>
+      <li>Commands are immediately available in command palette</li>
+    </ul>
+
+    <h3>2. Governance Rules (<code>src/engine/governance.ts</code>)</h3>
+
+    <p><strong>Purpose:</strong> Define the immutable rules that govern all AI behavior</p>
+
+    <p><strong>Rules:</strong></p>
+
+    <pre><code>export const GOVERNANCE_RULES = `
+GOVERNANCE RULES:
+- Do not invent features, permissions, or behavior that are not stated or implied
+- Do not change established terminology from the source
+- Do not add steps that require inventing information
+- Preserve ambiguity when the source is vague - document it as-is
+- Do not rewrite for style or elegance
+`;</code></pre>
+
+    <p><strong>Why these rules:</strong></p>
+
+    <ul>
+      <li><strong>No invention</strong>: Prevents AI from adding features that don't exist</li>
+      <li><strong>No terminology changes</strong>: Preserves domain-specific language</li>
+      <li><strong>No invented steps</strong>: Ensures procedures reflect actual behavior</li>
+      <li><strong>Preserve ambiguity</strong>: Documents uncertainty instead of guessing</li>
+      <li><strong>No style rewriting</strong>: Focuses on correctness, not elegance</li>
+    </ul>
+
+    <h3>3. Prompt Generator (<code>src/engine/promptGenerator.ts</code>)</h3>
+
+    <p><strong>Purpose:</strong> Core engine that constructs governance-driven prompts</p>
+
+    <p><strong>Key Function:</strong></p>
+
+    <pre><code>export function generatePrompt(input: PromptInput): string</code></pre>
+
+    <p><strong>Input Interface:</strong></p>
+
+    <pre><code>export interface PromptInput {
+  taskType: TaskType;        // Documentation type
+  userIntent: string;         // User's description
+  context: string;            // Source content
+  clarifications?: string;    // Optional answers to AI questions
+}</code></pre>
+
+    <p><strong>Prompt Structure:</strong></p>
+
+    <p>Every generated prompt contains:</p>
+
+    <ol>
+      <li><strong>System Instructions</strong>
+        <ul>
+          <li>Role definition: "You are a Technical Documentation Agent"</li>
+          <li>Governance rules (from governance.ts)</li>
+          <li>Rewrite policy</li>
+        </ul>
+      </li>
+      <li><strong>Missing Information Policy</strong> (conditional)
+        <ul>
+          <li><strong>Without clarifications</strong>: Instructions on when to ask questions vs. preserve ambiguity</li>
+          <li><strong>With clarifications</strong>: Instructions to treat clarifications as authoritative</li>
+        </ul>
+      </li>
+      <li><strong>User Intent</strong>
+        <ul>
+          <li>The description user provided (e.g., "Document the login process")</li>
+        </ul>
+      </li>
+      <li><strong>Source Content</strong>
+        <ul>
+          <li>The actual text selected/opened by user</li>
+          <li>Marked as "authoritative"</li>
+        </ul>
+      </li>
+      <li><strong>Clarifications Section</strong> (optional)
+        <ul>
+          <li>Present only when regenerating after AI asked questions</li>
+          <li>Marked as "authoritative - treat as facts"</li>
+        </ul>
+      </li>
+      <li><strong>Task-Specific Output Structure</strong>
+        <ul>
+          <li>Defined by documentation type</li>
+          <li>Includes mandatory headings</li>
+          <li>Always includes "Preserved Ambiguities" and "Governance Notes" sections</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><strong>Missing Information Handling Logic:</strong></p>
+
+    <p>The extension uses sophisticated logic to determine when AI should ask questions:</p>
+
+    <p><strong>Ask questions when:</strong></p>
+
+    <ul>
+      <li>Documentation requires inventing specific steps or features not mentioned</li>
+      <li>There are undefined references (e.g., "standard workflow", "usual process")</li>
+      <li>Logical gaps make the task impossible to complete factually</li>
+    </ul>
+
+    <p><strong>DO NOT ask questions about:</strong></p>
+
+    <ul>
+      <li>Vague but valid descriptions (e.g., "extra options", "show error")</li>
+      <li>Missing context that doesn't block the core task</li>
+      <li>Details that can be documented with preserved ambiguity</li>
+    </ul>
+
+    <p>This creates a "smart ambiguity tolerance" - AI can proceed with vague inputs as long as it documents the vagueness explicitly.</p>
+
+    <h3>4. Type System (<code>src/engine/types.ts</code>)</h3>
+
+    <p><strong>Supported Documentation Types:</strong></p>
+
+    <pre><code>export type TaskType =
+  | "procedure"           // Step-by-step instructions
+  | "concept"            // Technical explanations
+  | "troubleshooting"    // Problem-solving guides
+  | "reference"          // API/feature reference docs
+  | "tutorial"           // Learning-focused guides
+  | "release-notes"      // Version change documentation
+  | "api-documentation"; // API endpoint documentation</code></pre>
+
+    <hr>
+
+    <h2 id="command-details">Command Details</h2>
+
+    <h3>Command 1: <code>docAgent.generateDocumentation</code></h3>
+
+    <p><strong>Display Name:</strong> "Generate Documentation Prompt"</p>
+
+    <p><strong>Purpose:</strong> Generate a governance-driven AI prompt from selected content</p>
+
+    <p><strong>Trigger:</strong> Command Palette → "Generate Documentation Prompt"</p>
+
+    <p><strong>Workflow:</strong></p>
+
+    <ol>
+      <li>Check if editor is active</li>
+      <li>Get selected text (or full document if no selection)</li>
+      <li>Validate content exists</li>
+      <li>Store original content for later diff</li>
+      <li>Show quick pick menu with 7 documentation types</li>
+      <li>Show input box for user intent</li>
+      <li>Generate prompt using engine</li>
+      <li>Store prompt context for clarifications</li>
+      <li>Copy prompt to clipboard</li>
+      <li>Open prompt in new editor (split view)</li>
+      <li>Show success notification</li>
+    </ol>
+
+    <p><strong>Error Handling:</strong></p>
+
+    <ul>
+      <li>No active editor → Error: "No active editor found"</li>
+      <li>Empty content → Error: "No content found"</li>
+      <li>User cancels type selection → Silent exit</li>
+      <li>User cancels intent input → Silent exit</li>
+      <li>Generation fails → Error with exception message</li>
+    </ul>
+
+    <p><strong>User Experience:</strong></p>
+
+    <ul>
+      <li>Prompt opens beside current editor</li>
+      <li>Clipboard is pre-populated for easy pasting</li>
+      <li>Original editor remains open for reference</li>
+    </ul>
+
+    <h3>Command 2: <code>docAgent.previewRewriteDiff</code></h3>
+
+    <p><strong>Display Name:</strong> "Preview Documentation Rewrite Diff"</p>
+
+    <p><strong>Purpose:</strong> Compare original content with AI-generated documentation</p>
+
+    <p><strong>Trigger:</strong> Command Palette → "Preview Documentation Rewrite Diff"</p>
+
+    <p><strong>Prerequisites:</strong></p>
+
+    <ul>
+      <li>User must have previously run "Generate Documentation Prompt"</li>
+      <li>AI response must be available (in editor or clipboard)</li>
+    </ul>
+
+    <p><strong>Workflow:</strong></p>
+
+    <ol>
+      <li>Check if rewrite context exists</li>
+      <li>Attempt to get AI response from multiple sources (priority order):
+        <ul>
+          <li>Current active editor (saved file with content)</li>
+          <li>Current active editor (untitled document with content)</li>
+          <li>Clipboard content</li>
+        </ul>
+      </li>
+      <li>Validate AI response exists</li>
+      <li>Create temporary document with original content</li>
+      <li>Create temporary document with AI response</li>
+      <li>Open VS Code diff view (side-by-side)</li>
+      <li>Title diff: "Documentation Rewrite Preview"</li>
+    </ol>
+
+    <p><strong>Error Handling:</strong></p>
+
+    <ul>
+      <li>No prior prompt generation → Error: "No rewrite context found. Please run 'Generate Documentation Prompt' first."</li>
+      <li>Empty clipboard and no editor content → Error: "Clipboard is empty. Please copy the AI response first."</li>
+      <li>Diff command fails → Error with exception message</li>
+    </ul>
+
+    <p><strong>User Experience:</strong></p>
+
+    <ul>
+      <li>Original content on left (marked as read-only)</li>
+      <li>AI response on right (marked as read-only)</li>
+      <li>Changes highlighted with VS Code's diff colors</li>
+      <li>Can scroll both panels synchronously</li>
+      <li>User decides whether to accept, reject, or modify</li>
+    </ul>
+
+    <h3>Command 3: <code>docAgent.provideClarifications</code></h3>
+
+    <p><strong>Display Name:</strong> "Provide Clarifications and Regenerate Prompt"</p>
+
+    <p><strong>Purpose:</strong> Answer AI questions and regenerate prompt with clarifications</p>
+
+    <p><strong>Trigger:</strong> Command Palette → "Provide Clarifications and Regenerate Prompt"</p>
+
+    <p><strong>Prerequisites:</strong></p>
+
+    <ul>
+      <li>User must have previously run "Generate Documentation Prompt"</li>
+      <li>AI must have asked clarifying questions</li>
+    </ul>
+
+    <p><strong>Workflow:</strong></p>
+
+    <ol>
+      <li>Check if prompt context exists</li>
+      <li>Show input box for clarifications</li>
+      <li>Validate clarifications are provided</li>
+      <li>Regenerate prompt with same context + clarifications</li>
+      <li>Copy new prompt to clipboard</li>
+      <li>Open new prompt in editor (split view)</li>
+      <li>Show success notification</li>
+    </ol>
+
+    <p><strong>Clarifications Integration:</strong></p>
+
+    <p>The regenerated prompt includes:</p>
+
+    <pre><code>CLARIFICATIONS (authoritative - treat as facts):
+[User's answers to AI questions]</code></pre>
+
+    <p>And modified missing information policy:</p>
+
+    <pre><code>MISSING INFORMATION HANDLING:
+- Clarifications have been provided below that resolve missing information
+- Use the clarifications as authoritative facts
+- Only ask about information NOT covered by the clarifications
+- If clarifications resolve all gaps, proceed with generation</code></pre>
+
+    <p><strong>Error Handling:</strong></p>
+
+    <ul>
+      <li>No prior prompt generation → Error: "No prompt context found"</li>
+      <li>Empty clarifications → Validation error in input box</li>
+      <li>Regeneration fails → Error with exception message</li>
+    </ul>
+
+    <hr>
+
+    <h2 id="governance-system">Governance System</h2>
+
+    <h3>Philosophy</h3>
+
+    <p>The governance system is the core differentiator of this extension. It transforms AI from a "helpful assistant that often lies" into a "constrained agent that preserves truth."</p>
+
+    <h3>Enforcement Mechanism</h3>
+
+    <p>Governance is enforced through <strong>prompt engineering</strong>, not through technical controls. The extension:</p>
+
+    <ol>
+      <li>Injects governance rules into every prompt</li>
+      <li>Instructs AI to continue even if it violates rules</li>
+      <li>Requires AI to document violations in "Governance Notes" section</li>
+    </ol>
+
+    <p>This creates <strong>observable governance</strong> - violations are visible, not prevented.</p>
+
+    <h3>Rule Breakdown</h3>
+
+    <h4>Rule 1: No Feature Invention</h4>
+
+    <p><strong>What it prevents:</strong></p>
+
+    <ul>
+      <li>Adding features that don't exist</li>
+      <li>Implying capabilities not mentioned</li>
+      <li>Extrapolating from similar products</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <ul>
+      <li>❌ Bad: "User clicks login, enters credentials, or uses SSO"</li>
+      <li>✅ Good: "User clicks login and enters credentials" (if SSO not mentioned)</li>
+    </ul>
+
+    <h4>Rule 2: No Terminology Changes</h4>
+
+    <p><strong>What it prevents:</strong></p>
+
+    <ul>
+      <li>Replacing domain-specific terms with "clearer" alternatives</li>
+      <li>Normalizing inconsistent terminology</li>
+      <li>Using industry-standard terms when source uses different terms</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <ul>
+      <li>Source says: "refresh token rotation"</li>
+      <li>❌ Bad: AI changes to "token refresh mechanism"</li>
+      <li>✅ Good: AI keeps "refresh token rotation"</li>
+    </ul>
+
+    <h4>Rule 3: No Invented Steps</h4>
+
+    <p><strong>What it prevents:</strong></p>
+
+    <ul>
+      <li>Adding steps that "should" exist</li>
+      <li>Filling logical gaps with assumptions</li>
+      <li>Borrowing steps from similar processes</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <ul>
+      <li>Source: "User clicks submit. Data is validated."</li>
+      <li>❌ Bad: "User fills form, clicks submit, data is validated"</li>
+      <li>✅ Good: Document as-is (or ask: "What happens before submit?")</li>
+    </ul>
+
+    <h4>Rule 4: Preserve Ambiguity</h4>
+
+    <p><strong>What it prevents:</strong></p>
+
+    <ul>
+      <li>Resolving vague language with guesses</li>
+      <li>Converting "some", "various", "extra" into specifics</li>
+      <li>Making absolute statements from relative ones</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <ul>
+      <li>Source: "Admin users get extra features"</li>
+      <li>❌ Bad: "Admin users can manage users and view reports"</li>
+      <li>✅ Good: "Admin users get extra features" + note in Preserved Ambiguities</li>
+    </ul>
+
+    <h4>Rule 5: No Style Rewriting</h4>
+
+    <p><strong>What it prevents:</strong></p>
+
+    <ul>
+      <li>Polishing rough language</li>
+      <li>Improving sentence structure when meaning is clear</li>
+      <li>Making documentation "sound better"</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <ul>
+      <li>Source: "Thing happens. Then other thing happens."</li>
+      <li>❌ Bad: "When the first event occurs, it triggers a subsequent event."</li>
+      <li>✅ Good: Reorder for clarity if needed, but keep informal tone</li>
+    </ul>
+
+    <h3>Preserved Ambiguities Section</h3>
+
+    <p>Every output includes a <strong>Preserved Ambiguities</strong> section that lists:</p>
+
+    <ul>
+      <li>Vague terms documented as-is</li>
+      <li>Undefined references</li>
+      <li>Implicit assumptions</li>
+      <li>Missing details</li>
+    </ul>
+
+    <p><strong>Purpose:</strong></p>
+
+    <ul>
+      <li>Makes uncertainty visible to reviewers</li>
+      <li>Helps identify gaps in source material</li>
+      <li>Distinguishes "incomplete docs" from "complete docs of incomplete specs"</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre><code>## Preserved Ambiguities
+- "Extra features" for admin users - not specified in source
+- "Standard workflow" - undefined reference
+- Error handling behavior - not mentioned in source</code></pre>
+
+    <h3>Governance Notes Section</h3>
+
+    <p>Only included when AI violates governance rules.</p>
+
+    <p><strong>Purpose:</strong></p>
+
+    <ul>
+      <li>Documents where AI couldn't follow rules</li>
+      <li>Helps improve source content or prompts</li>
+      <li>Maintains transparency about AI limitations</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre><code>## Governance Notes
+- Added "typically" when describing behavior to avoid stating certainty
+- Reordered steps for logical flow (source order was unclear)</code></pre>
+
+    <hr>
+
+    <h2 id="prompt-generation-logic">Prompt Generation Logic</h2>
+
+    <h3>Task-Specific Output Structures</h3>
+
+    <p>Each documentation type has a predefined structure:</p>
+
+    <h4>1. Procedure</h4>
+
+    <pre><code>Prerequisites
+Procedure
+Notes
+Preserved Ambiguities (only if applicable)
+Governance Notes (only if applicable)</code></pre>
+
+    <p><strong>Use case:</strong> Step-by-step user instructions, deployment guides, setup procedures</p>
+
+    <h4>2. Concept</h4>
+
+    <pre><code>Overview
+Key Components
+Process Flow
+Important Considerations
+Preserved Ambiguities (only if applicable)
+Governance Notes (only if applicable)</code></pre>
+
+    <p><strong>Use case:</strong> Architectural explanations, system designs, technical concepts</p>
+
+    <h4>3. Troubleshooting</h4>
+
+    <pre><code>Symptoms
+Possible Causes
+Verification Steps
+Resolution
+Prevention
+Preserved Ambiguities (only if applicable)
+Governance Notes (only if applicable)</code></pre>
+
+    <p><strong>Use case:</strong> Problem-solving guides, error resolution, diagnostic procedures</p>
+
+    <h4>4. Reference</h4>
+
+    <pre><code>Description
+Parameters / Options
+Examples
+Related Information
+Preserved Ambiguities (only if applicable)
+Governance Notes (only if applicable)</code></pre>
+
+    <p><strong>Use case:</strong> Configuration references, command references, feature catalogs</p>
+
+    <h4>5. Tutorial</h4>
+
+    <pre><code>Objective
+Prerequisites
+Steps
+Verification
+Next Steps
+Preserved Ambiguities (only if applicable)
+Governance Notes (only if applicable)</code></pre>
+
+    <p><strong>Use case:</strong> Learning-focused guides, getting started guides, hands-on tutorials</p>
+
+    <h4>6. Release Notes</h4>
+
+    <pre><code>New Features
+Improvements
+Bug Fixes
+Breaking Changes (if applicable)
+Known Issues (if applicable)
+Preserved Ambiguities (only if applicable)
+Governance Notes (only if applicable)</code></pre>
+
+    <p><strong>Use case:</strong> Version releases, changelog entries, update announcements</p>
+
+    <h4>7. API Documentation</h4>
+
+    <pre><code>Endpoint / Function
+Description
+Request / Parameters
+Response / Return Value
+Examples
+Error Handling
+Preserved Ambiguities (only if applicable)
+Governance Notes (only if applicable)</code></pre>
+
+    <p><strong>Use case:</strong> REST API docs, function documentation, SDK references</p>
+
+    <h3>Dynamic Sections</h3>
+
+    <p>Some sections are <strong>conditional</strong>:</p>
+
+    <ul>
+      <li><strong>Preserved Ambiguities</strong>: Only if source content has vague elements</li>
+      <li><strong>Governance Notes</strong>: Only if AI violated rules</li>
+      <li><strong>Breaking Changes</strong>: Only for release notes with breaking changes</li>
+      <li><strong>Known Issues</strong>: Only for release notes with known issues</li>
+    </ul>
+
+    <p>This prevents empty sections in output.</p>
+
+    <hr>
+
+    <h2 id="workflow-details">Workflow Details</h2>
+
+    <h3>Workflow 1: Simple Documentation Generation</h3>
+
+    <p><strong>Scenario:</strong> User has complete, clear source material</p>
+
+    <ol>
+      <li>Select content in VS Code</li>
+      <li>Run "Generate Documentation Prompt"</li>
+      <li>Choose documentation type (e.g., "Procedure")</li>
+      <li>Describe intent: "Document the deployment process"</li>
+      <li>Paste prompt into Claude/ChatGPT</li>
+      <li>Receive structured documentation</li>
+      <li>Run "Preview Documentation Rewrite Diff"</li>
+      <li>Review changes and preserved ambiguities</li>
+      <li>Accept or modify as needed</li>
+    </ol>
+
+    <p><strong>Timeline:</strong> 2-3 minutes</p>
+
+    <h3>Workflow 2: Documentation with Clarifications</h3>
+
+    <p><strong>Scenario:</strong> Source material has critical gaps</p>
+
+    <ol>
+      <li>Select incomplete content</li>
+      <li>Run "Generate Documentation Prompt"</li>
+      <li>Choose documentation type</li>
+      <li>Describe intent</li>
+      <li>Paste prompt into AI</li>
+      <li><strong>AI responds with questions</strong> (e.g., "What happens after validation fails?")</li>
+      <li>Run "Provide Clarifications and Regenerate Prompt"</li>
+      <li>Enter answers to AI questions</li>
+      <li>Paste regenerated prompt into AI</li>
+      <li>Receive complete documentation</li>
+      <li>Preview diff and review</li>
+    </ol>
+
+    <p><strong>Timeline:</strong> 5-7 minutes</p>
+
+    <h3>Workflow 3: Iterative Refinement</h3>
+
+    <p><strong>Scenario:</strong> Multiple rounds of clarification needed</p>
+
+    <ol>
+      <li>Generate initial prompt → AI asks questions (batch 1)</li>
+      <li>Provide clarifications → AI asks more questions (batch 2)</li>
+      <li>Provide more clarifications → AI generates documentation</li>
+      <li>Preview and review</li>
+    </ol>
+
+    <p><strong>Timeline:</strong> 10-15 minutes</p>
+
+    <p><strong>Note:</strong> Extension stores prompt context throughout, so each regeneration preserves:</p>
+
+    <ul>
+      <li>Task type</li>
+      <li>User intent</li>
+      <li>Original source content</li>
+      <li>All previous clarifications (cumulative)</li>
+    </ul>
+
+    <hr>
+
+    <h2 id="extension-api">Extension API</h2>
+
+    <h3>Exported Activation Function</h3>
+
+    <pre><code>export function activate(context: vscode.ExtensionContext): void</code></pre>
+
+    <p><strong>Registers:</strong></p>
+
+    <ul>
+      <li><code>docAgent.generateDocumentation</code></li>
+      <li><code>docAgent.previewRewriteDiff</code></li>
+      <li><code>docAgent.provideClarifications</code></li>
+    </ul>
+
+    <h3>Exported Deactivation Function</h3>
+
+    <pre><code>export function deactivate(): void</code></pre>
+
+    <p><strong>Purpose:</strong> Cleanup (currently no-op)</p>
+
+    <h3>Dependencies</h3>
+
+    <p><strong>Runtime Dependencies:</strong></p>
+
+    <pre><code>{
+  "vscode": "^1.104.0"  // VS Code Extension API
+}</code></pre>
+
+    <p><strong>Development Dependencies:</strong></p>
+
+    <pre><code>{
+  "@types/vscode": "^1.104.0",
+  "@types/node": "^22.10.2",
+  "typescript": "^5.7.2",
+  "esbuild": "^0.24.2"
+}</code></pre>
+
+    <h3>Build System</h3>
+
+    <ul>
+      <li><strong>Compiler:</strong> TypeScript 5.7.2</li>
+      <li><strong>Bundler:</strong> esbuild 0.24.2</li>
+      <li><strong>Target:</strong> ES2022</li>
+      <li><strong>Module:</strong> CommonJS</li>
+      <li><strong>Output:</strong> <code>out/extension.js</code> (single file bundle)</li>
+    </ul>
+
+    <p><strong>Build Commands:</strong></p>
+
+    <pre><code>npm run compile    # Compile TypeScript
+npm run watch      # Watch mode for development
+npm run package    # Create .vsix package
+npm run publish    # Publish to marketplace</code></pre>
+
+    <h3>Configuration</h3>
+
+    <p><strong>Extension Manifest (package.json):</strong></p>
+
+    <ul>
+      <li><strong>Name:</strong> <code>doc-agent-orchestrator</code></li>
+      <li><strong>Display Name:</strong> "Documentation Agent Orchestrator"</li>
+      <li><strong>Version:</strong> 1.0.0</li>
+      <li><strong>Publisher:</strong> TharunSebastian</li>
+      <li><strong>License:</strong> MIT</li>
+      <li><strong>Activation:</strong> On VS Code startup (no specific events)</li>
+    </ul>
+
+    <p><strong>No User Settings:</strong></p>
+
+    <ul>
+      <li>Extension has no configurable settings</li>
+      <li>All behavior is hardcoded for consistency</li>
+      <li>Governance rules are immutable</li>
+    </ul>
+
+    <hr>
+
+    <h2>Summary</h2>
+
+    <p><strong>Documentation Agent Orchestrator</strong> is a VS Code extension that bridges the gap between AI capability and documentation trustworthiness. It works by:</p>
+
+    <ol>
+      <li><strong>Injecting governance rules</strong> into AI prompts</li>
+      <li><strong>Structuring output</strong> with task-specific templates</li>
+      <li><strong>Preserving ambiguity</strong> instead of inventing details</li>
+      <li><strong>Enabling clarification loops</strong> when needed</li>
+      <li><strong>Providing diff previews</strong> for validation</li>
+    </ol>
+
+    <p>The extension doesn't try to make AI smarter - it makes AI behavior <strong>constrained, observable, and defensible</strong>.</p>
+
+    <p><strong>Core insight:</strong> AI is fluent but unreliable. By making AI preserve ambiguity and document uncertainty, the extension transforms it into a tool for creating accurate documentation from incomplete specifications.</p>
+
+    <footer>
+      <a href="index.html">Home</a>
+      <a href="https://marketplace.visualstudio.com/">VS Code Marketplace</a>
+      <span>MIT License</span>
+      <span>© 2026 Tharun Sebastian</span>
+    </footer>
+
+  </div>
+</body>
+</html>
